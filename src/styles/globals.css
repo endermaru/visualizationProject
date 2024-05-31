@@ -9,6 +9,53 @@ body {
 	font-family: Arial, Helvetica, sans-serif;
 }
 /* Overrides the original padding of the Popup component in the Map */
-.mapboxgl-popup-content {
-	padding: 0 !important;
+.popup-valid-others .mapboxgl-popup-content {
+	color: #7a7a7a;
+    background-color: #646464; /* 중립적인 파란색 */
+    border-color: #2C3E50;
+    box-shadow: 3px 3px 2px #2C3E50;
+	width: 200px;
 }
+
+.popup-valid-target .mapboxgl-popup-content {
+	color: #ffffff;
+    background-color: #da4213; 
+    border-color: #C0392B;
+	box-shadow: 3px 3px 2px #491c1c;
+	width: 200px;
+}
+
+.mapboxgl-popup-close-button{
+	display:none;
+}
+
+
+
+@keyframes fadeOut {
+	0% {
+	  opacity: 1;
+	}
+	100% {
+	  opacity: 0;
+	}
+  }
+  
+.image {
+	opacity: 1;
+	animation: fadeOut 2s ease-out 1s forwards;
+	position: absolute;
+	top: 50%;
+  	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 100%;
+	z-index: 20; 
+}
+
+@layer utilities {
+	.rotate-on-hover {
+		transition: transform 0.3s;
+	  }
+	.parent:hover .rotate-on-hover {
+	transform: rotate(360deg);
+	}
+  }
