@@ -1,19 +1,33 @@
 import { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import MapB from './map'
+import MapB, {coord} from './map'
 
 export default function Home() {
 
   //Map 컴포넌트 통신용
-  const [action, setAction] = useState(0);
-  const [lat, setLat] = useState(37.55);
-  const [lng, setLng] = useState(126.97);
-  const [bearing,setBearing] = useState(-92.4);
-  const [pitch, setPitch] = useState(61.5);
-  const [zoom, setZoom] = useState(15.6);
+  const [action, setAction] = useState('null');
+  
+  const [lat, setLat] = useState(coord.init.lat);
+  const [lng, setLng] = useState(coord.init.lng);
+  const [bearing,setBearing] = useState(coord.init.bearing);
+  const [pitch, setPitch] = useState(coord.init.pitch);
+  const [zoom, setZoom] = useState(coord.init.zoom);
  
   const mapAction = () => {
-    setAction(action? 0:1); //토글되며 액션 실행
+    if (action!='null'){
+      setLat(coord.init.lat);
+      setLng(coord.init.lng);
+      setBearing(coord.init.bearing);
+      setPitch(coord.init.pitch);
+      setZoom(coord.init.zoom);
+    } else {
+      setLat(coord.center.lat);
+      setLng(coord.center.lng);
+      setBearing(coord.center.bearing);
+      setPitch(coord.center.pitch);
+      setZoom(coord.center.zoom);
+    }
+    setAction(action=='center'? 'null':'center'); //토글되며 액션 실행
   };
 
   return (
@@ -28,14 +42,7 @@ export default function Home() {
       <button className="absolute bg-white text-black" onClick={mapAction}>
         Trigger Map Action
       </button>
-      <button className="absolute bg-white text-black top-0" onClick={()=>{
-        setLat(lat+0.005);
-      }}>
-        adjust lat
-      </button>
       {/* 여기까지 */}
-
-
       
     </main>
   );

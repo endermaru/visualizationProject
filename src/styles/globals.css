@@ -29,33 +29,49 @@ body {
 	display:none;
 }
 
+.marker1 {
+	background-image: url('/marker1.png');
+	background-size: cover;
+	width: 150px;
+	height: 150px;
+}
+.marker2 {
+	background-image: url('/marker2.png');
+	background-size: cover;
+	width: 150px;
+	height: 150px;
+}
+.marker3 {
+	background-image: url('/marker3.png');
+	background-size: cover;
+	width: 150px;
+	height: 150px;
+}
+.marker4 {
+	background-image: url('/marker4.png');
+	background-size: cover;
+	width: 150px;
+	height: 150px;
+}
 
+.fade-out {
+  animation: fadeOut 0.5s forwards;
+}
 
 @keyframes fadeOut {
-	0% {
-	  opacity: 1;
+	from {
+		opacity: 1;
 	}
-	100% {
-	  opacity: 0;
+	to {
+		opacity: 0;
 	}
-  }
-  
-.image {
-	opacity: 1;
-	animation: fadeOut 2s ease-out 1s forwards;
-	position: absolute;
-	top: 50%;
-  	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 100%;
-	z-index: 20; 
 }
 
 @layer utilities {
 	.rotate-on-hover {
 		transition: transform 0.3s;
-	  }
+		}
 	.parent:hover .rotate-on-hover {
-	transform: rotate(360deg);
+		transform: rotate(360deg);
 	}
-  }
+}
