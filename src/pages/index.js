@@ -5,8 +5,7 @@ import MapB, {coord} from './map'
 export default function Home() {
 
   //Map 컴포넌트 통신용
-  const [action, setAction] = useState('null');
-  
+  const [action, setAction] = useState(0);
   const [lat, setLat] = useState(coord.init.lat);
   const [lng, setLng] = useState(coord.init.lng);
   const [bearing,setBearing] = useState(coord.init.bearing);
@@ -14,36 +13,73 @@ export default function Home() {
   const [zoom, setZoom] = useState(coord.init.zoom);
  
   const mapAction = () => {
-    if (action!='null'){
-      setLat(coord.init.lat);
-      setLng(coord.init.lng);
-      setBearing(coord.init.bearing);
-      setPitch(coord.init.pitch);
-      setZoom(coord.init.zoom);
-    } else {
-      setLat(coord.center.lat);
-      setLng(coord.center.lng);
-      setBearing(coord.center.bearing);
-      setPitch(coord.center.pitch);
-      setZoom(coord.center.zoom);
+    switch(action){
+      // case 1:{
+      //   console.log("case0!");
+      //   setLat(coord.init.lat);
+      //   setLng(coord.init.lng);
+      //   setBearing(coord.init.bearing);
+      //   setPitch(coord.init.pitch);
+      //   setZoom(coord.init.zoom);
+      //   break;
+      // }
+      case 0:{
+        console.log("case1!");
+        setLat(coord.center.lat);
+        setLng(coord.center.lng);
+        setBearing(coord.center.bearing);
+        setPitch(coord.center.pitch);
+        setZoom(coord.center.zoom);
+        break;
+      }
     }
-    setAction(action=='center'? 'null':'center'); //토글되며 액션 실행
+    setAction(action+1); //토글되며 액션 실행
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 2000) {
+        console.log('Scroll position is more than 300px');
+        // 여기서 특정한 액션을 수행
+        mapAction();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <main className="bg-black h-screen w-screen flex items-center">
+    <main style={{ height: '20000px' }}>
       
-      <MapB action={action} lat={lat} lng={lng}
-      pitch={pitch} bearing={bearing} zoom={zoom} />
-      {/* 컴포넌트가 맵 밑에서 안 보인다면, z인덱스 활용! (순서대로 차곡차곡 위에 렌더링)*/}
+      <MapB 
+        action={action} 
+        lat={lat} 
+        lng={lng} 
+        pitch={pitch} 
+        bearing={bearing} 
+        zoom={zoom} 
+      />
+      <div className="relative z-10">
+        {/* 커버 */}
 
-
-      {/*사용 예시*/}
-      <button className="absolute bg-white text-black" onClick={mapAction}>
-        Trigger Map Action
-      </button>
-      {/* 여기까지 */}
-      
+        <div className="bg-white text-black h-48 flex items-center" style={{ height: '957px' }}>
+          <p>Scroll down to see more content</p>
+        </div>
+        <div className="mt-4">
+          {/* <button className="z-5 bg-white text-black" onClick={mapAction}>
+              Trigger Map Action
+          </button> */}
+          <div className="h-96 bg-gray-200 mb-4 flex items-center" style={{ marginTop: '957px' }}>
+            <p>더 내리세요</p>
+          </div>
+          {/* <div className="h-96 bg-gray-300 mb-4">Scrollable Content 2</div>
+          <div className="h-96 bg-gray-400 mb-4">Scrollable Content 3</div>
+          <div className="h-96 bg-gray-500 mb-4">Scrollable Content 4</div> */}
+        </div>
+      </div>
     </main>
+
   );
 }

@@ -76,11 +76,12 @@ const MapB =(props) => {
   const mapContainer = useRef(null); //맵 컨테이너 객체
   const map = useRef(null); //맵 객체
   const [visible, setVisible] = useState(true); //기타 건물 표시 여부
+  const [interactive, setInteractive] = useState(false);
+  const [tool, setTool] = useState(true);
   const markers = useRef([]); //마커 관리
   
   //useEffect for mapbox
   useEffect(() => {
-
     //init
     if (map.current) return;
     map.current = new mapboxgl.Map({
@@ -90,7 +91,7 @@ const MapB =(props) => {
       zoom: coord.init.zoom,
       pitch: coord.init.pitch,
       bearing: coord.init.bearing,
-      attributionControl: false
+
     });
     //load - 레이어 표시 및 쪽방촌 마커 추가
     map.current.on('style.load', () => {
@@ -99,7 +100,8 @@ const MapB =(props) => {
       
       for (const feature of geojson.features) {
         const el = document.createElement('div');
-        el.className = feature.properties.marker;
+        el.className = "marker";
+        el.id = feature.properties.marker;
         const marker = new mapboxgl.Marker(el)
           .setLngLat(feature.geometry.coordinates)
           .addTo(map.current);
@@ -158,34 +160,24 @@ const MapB =(props) => {
     });
 
     //실시간 좌표 출력
-    map.current.on('move',(e)=>{
-      const center = map.current.getCenter(); 
-      const bearing = map.current.getBearing();
-      const zoom = map.current.getZoom();
-      const pitch = map.current.getPitch();
+    // map.current.on('move',(e)=>{
+    //   const center = map.current.getCenter(); 
+    //   const bearing = map.current.getBearing();
+    //   const zoom = map.current.getZoom();
+    //   const pitch = map.current.getPitch();
 
-      console.log('Current center:', center);
-      console.log('Current bearing:', bearing);
-      console.log('Current Pitch', pitch);
-      console.log('Current zooom', zoom);
-    });
+    //   console.log('Current center:', center);
+    //   console.log('Current bearing:', bearing);
+    //   console.log('Current Pitch', pitch);
+    //   console.log('Current zooom', zoom);
+    // });
     
-    //처음 위치로 돌아가기
-    document.getElementById('reset').addEventListener('click', () => {
-      map.current.flyTo({
-        center: [coord.init.lng,coord.init.lat],
-        zoom: coord.init.zoom,
-        pitch: coord.init.pitch,
-        bearing: coord.init.bearing,
-        essential: true
-      });
-    });
-    map.current.addControl(new mapboxgl.NavigationControl())
+    //map.current.addControl(new mapboxgl.NavigationControl())
   });
 
   //action - index와 통신
   useEffect(() => {
-    
+    console.log(props.action, props.lng);
     //이동
     setTimeout(()=>{if (map.current) {
       map.current.flyTo({
@@ -198,21 +190,25 @@ const MapB =(props) => {
     }
     },300);
 
-    //레이어 비활성화 및 마커 제거
-    if (props.action=='center'){
-      markers.current.forEach(marker => {
-        const markerElement = marker.getElement();
-        markerElement.classList.add('fade-out');
-        markerElement.addEventListener('animationend', () => {
-          marker.remove();
+    //단계별 메서드
+    switch(props.action){
+      case 1:{
+        //레이어 비활성화 및 마커 제거
+        markers.current.forEach(marker => {
+          const markerElement = marker.getElement();
+          markerElement.classList.add('fade-out');
+          markerElement.addEventListener('animationend', () => {
+            marker.remove();
+          });
         });
-      });
-      markers.current = [];
-
-      const visi = map.current.getLayoutProperty('seoul1', 'visibility');
-      if (visi=='visible'){
-        map.current.setLayoutProperty('seoul1', 'visibility', 'none');
-        map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+        markers.current = [];
+  
+        const visi = map.current.getLayoutProperty('seoul1', 'visibility');
+        if (visi=='visible'){
+          map.current.setLayoutProperty('seoul1', 'visibility', 'none');
+          map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+        }
+        break;
       }
     }
   }, [props.action]); 
@@ -236,22 +232,61 @@ const MapB =(props) => {
     setVisible(!visible);
   }
 
+  //맵 상호작용 토글
+  useEffect(()=>{
+    if (map.current) {
+      console.log("!");
+      if (interactive){
+        map.current['scrollZoom'].enable();
+        map.current['boxZoom'].enable();
+        map.current['dragRotate'].enable();
+        map.current['dragPan'].enable();
+        map.current['keyboard'].enable();
+        map.current['doubleClickZoom'].enable();
+        map.current['touchZoomRotate'].enable();
+      } else {
+        map.current['scrollZoom'].disable();
+        map.current['boxZoom'].disable();
+        map.current['dragRotate'].disable();
+        map.current['dragPan'].disable();
+        map.current['keyboard'].disable();
+        map.current['doubleClickZoom'].disable();
+        map.current['touchZoomRotate'].disable();
+      }
+    }
+  },[interactive]);
+
   return (
-    <>
-      <div className="absolute flex flex-col z-10 top-36 right-0 px-1 rounded-md">
-      <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
-      } onClick={(e)=>visibleToggle(e)}>
-          <p className="text-2xl">{!visible? "🗺️":"🔍"}</p>
-          <p className="text-xs">{!visible? "다른건물":"쪽방촌만"}</p>
-          <p className="text-xs">{!visible? "둘러보기":"살펴보기"}</p>
-      </button>
-      <button className="parent rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white hover:bg-white font-bold text-stone-700 hover:text-blue-600" id="reset">
-          <p className="text-2xl rotate-on-hover">↻</p>
-          <p className="text-xs">처음으로</p>
-      </button>
-      </div>
-      <div className="z-0" ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
-    </>
+    <div className='fixed top-0 left-0 w-screen h-screen z-0'>
+      
+      <div className='z-0' ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
+      {tool && <div className="absolute flex flex-col z-10 top-4 right-4 px-1 rounded-md">
+        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
+        } onClick={(e)=>visibleToggle(e)}>
+            <p className="text-xl">{!visible? "🗺️":"🔍"}</p>
+            <p className="text-xs">{!visible? "다른건물":"쪽방촌만"}</p>
+            <p className="text-xs">{!visible? "둘러보기":"살펴보기"}</p>
+        </button>
+        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
+        } onClick={(e)=>setInteractive(!interactive)}>
+            <p className="text-xs">상호작용</p>
+            <p className="text-lg font-bold">{interactive? "ON":"OFF"}</p>
+        </button>
+        <button className="rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white hover:bg-white font-bold text-stone-700 hover:text-blue-600" id="reset"
+        onClick={()=>{
+          map.current.flyTo({
+            center: [coord.center.lng,coord.center.lat],
+            zoom: coord.center.zoom,
+            pitch: coord.center.pitch,
+            bearing: coord.center.bearing,
+            essential: true
+          });
+        }}>
+            <p className="text-xs">처음으로</p>
+            <p className="text-2xl font-bold">↻</p>
+        </button>
+      </div>}
+    </div>
   );
 }
 

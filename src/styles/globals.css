@@ -8,7 +8,14 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
 }
-/* Overrides the original padding of the Popup component in the Map */
+
+/* *{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+} */
+
 .popup-valid-others .mapboxgl-popup-content {
 	color: #7a7a7a;
     background-color: #646464; /* 중립적인 파란색 */
@@ -29,25 +36,25 @@ body {
 	display:none;
 }
 
-.marker1 {
+#marker1 {
 	background-image: url('/marker1.png');
 	background-size: cover;
 	width: 150px;
 	height: 150px;
 }
-.marker2 {
+#marker2 {
 	background-image: url('/marker2.png');
 	background-size: cover;
 	width: 150px;
 	height: 150px;
 }
-.marker3 {
+#marker3 {
 	background-image: url('/marker3.png');
 	background-size: cover;
 	width: 150px;
 	height: 150px;
 }
-.marker4 {
+#marker4 {
 	background-image: url('/marker4.png');
 	background-size: cover;
 	width: 150px;
@@ -64,14 +71,5 @@ body {
 	}
 	to {
 		opacity: 0;
-	}
-}
-
-@layer utilities {
-	.rotate-on-hover {
-		transition: transform 0.3s;
-		}
-	.parent:hover .rotate-on-hover {
-		transform: rotate(360deg);
 	}
 }
