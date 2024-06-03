@@ -181,6 +181,7 @@ const MapB =(props) => {
     //이동
     setTimeout(()=>{if (map.current) {
       map.current.flyTo({
+        duration : 2500,
         center: [props.lng, props.lat],
         zoom: props.zoom,
         pitch: props.pitch,
