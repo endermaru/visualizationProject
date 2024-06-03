@@ -12,19 +12,18 @@ export default function Home() {
   const [pitch, setPitch] = useState(coord.init.pitch);
   const [zoom, setZoom] = useState(coord.init.zoom);
  
-  const mapAction = () => {
-    switch(action){
-      // case 1:{
-      //   console.log("case0!");
-      //   setLat(coord.init.lat);
-      //   setLng(coord.init.lng);
-      //   setBearing(coord.init.bearing);
-      //   setPitch(coord.init.pitch);
-      //   setZoom(coord.init.zoom);
-      //   break;
-      // }
+  const mapAction = (newAction) => { //페이즈를 분리해 맞게 작동할 수 있도록
+    const act = newAction;
+    switch(act){
       case 0:{
-        console.log("case1!");
+        setLat(coord.init.lat);
+        setLng(coord.init.lng);
+        setBearing(coord.init.bearing);
+        setPitch(coord.init.pitch);
+        setZoom(coord.init.zoom);
+        break;
+      }
+      case 1:{
         setLat(coord.center.lat);
         setLng(coord.center.lng);
         setBearing(coord.center.bearing);
@@ -33,14 +32,16 @@ export default function Home() {
         break;
       }
     }
-    setAction(action+1); //토글되며 액션 실행
+    setAction(newAction); //토글되며 액션 실행
   };
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 2000) {
+      if (window.scrollY > 2200) {
         console.log('Scroll position is more than 300px');
         // 여기서 특정한 액션을 수행
-        mapAction();
+        mapAction(1);
+      } else {
+        mapAction(0);
       }
     };
 
