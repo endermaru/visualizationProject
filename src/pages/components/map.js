@@ -116,14 +116,14 @@ const MapB =(props) => {
       new mapboxgl.Popup({className: 'popup-valid-others'})
         .setLngLat(e.lngLat)
         .setHTML(`
-        <div style="color:white;">
+        <div style="color:white;font-size:13px;">
           일반 주거용 건물
         </div>
-        <div style="color:white;font-size:15px;font-weight: bold;margin-bottom:7px;width:100%;">
+        <div style="color:white;font-size:17px;font-weight: bold;margin-bottom:7px;width:100%;">
           ${address}
         </div>
         <hr style="border-color: white;"> 
-        <div style="color:white;font-weight: bold;font-size:15px;margin-top:7px">
+        <div style="color:white;font-weight: bold;font-size:17px;margin-top:7px">
           폭염 불평등 지수: ${Math.round(e.features[0].properties.score*10)/10}점
         </div>`)
         .addTo(map.current);
@@ -140,14 +140,14 @@ const MapB =(props) => {
       new mapboxgl.Popup({className: 'popup-valid-target'})
         .setLngLat(e.lngLat)
         .setHTML(`
-          <div style="color:white;">
+          <div style="color:white;font-size:13px;">
             쪽방촌 건물
           </div>
-          <div style="color:white;font-size:15px;font-weight: bold;margin-bottom:7px;width:100%;">
+          <div style="color:white;font-size:17px;font-weight: bold;margin-bottom:7px;width:100%;">
             ${address}
           </div>
           <hr style="border-color: white;"> 
-          <div style="color:white;font-weight: bold;font-size:15px;margin-top:7px">
+          <div style="color:white;font-weight: bold;font-size:17px;margin-top:7px">
             폭염 불평등 지수: ${Math.round(e.features[0].properties.score*10)/10}점
           </div>`)
         .addTo(map.current);
@@ -214,12 +214,17 @@ const MapB =(props) => {
     }
   }, [props.action]); 
 
-  //기타 건물 활성화, 비활성화
-  const visibleToggle = (e)=>{
+  //팝업 지우기
+  const removePopups = ()=> {
     const popup = document.getElementsByClassName('mapboxgl-popup');
     if (popup.length) {
       popup[0].remove();
     }
+  } 
+
+  //기타 건물 활성화, 비활성화
+  const visibleToggle = (e)=>{
+    removePopups();
     // Toggle layer visibility by changing the layout object's visibility property.
     if (visible) {
       map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'visible');
@@ -235,6 +240,7 @@ const MapB =(props) => {
 
   //맵 상호작용 토글
   useEffect(()=>{
+    removePopups();
     if (map.current) {
       console.log("!");
       if (interactive){
@@ -261,7 +267,7 @@ const MapB =(props) => {
     <div className='fixed top-0 left-0 w-screen h-screen z-0'>
       
       <div className='z-0' ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
-      {tool && <div className="absolute flex flex-col z-10 top-4 right-4 px-1 rounded-md">
+      {tool && <div className="absolute flex flex-col z-10 top-4 right-4 px-1 rounded-md font-Pretendard-ExBold">
         <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>visibleToggle(e)}>
             <p className="text-xl">{!visible? "🗺️":"🔍"}</p>
@@ -271,10 +277,11 @@ const MapB =(props) => {
         <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>setInteractive(!interactive)}>
             <p className="text-xs">상호작용</p>
-            <p className="text-lg font-bold">{interactive? "ON":"OFF"}</p>
+            <p className="text-lg">{interactive? "ON":"OFF"}</p>
         </button>
         <button className="rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white hover:bg-white font-bold text-stone-700 hover:text-blue-600" id="reset"
         onClick={()=>{
+          removePopups();
           map.current.flyTo({
             center: [coord.center.lng,coord.center.lat],
             zoom: coord.center.zoom,
