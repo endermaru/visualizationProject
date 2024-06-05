@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
-import MapB, {coord} from './map'
+import MapB, {coord} from './components/map'
+import UIComponent from './components/UIComponents';
 
 export default function Home() {
 
@@ -51,7 +52,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main style={{ height: '20000px' }}>
+    <main className="font-Pretendard-Regular" style={{ height: '20000px' }}>
       
       <MapB 
         action={action} 
@@ -67,13 +68,15 @@ export default function Home() {
         <div className="bg-white text-black h-48 flex items-center" style={{ height: '957px' }}>
           <p>Scroll down to see more content</p>
         </div>
-        <div className="mt-4">
+        <div className="mt-4 flex flex-col">
           {/* <button className="z-5 bg-white text-black" onClick={mapAction}>
               Trigger Map Action
           </button> */}
-          <div className="h-96 bg-gray-200 mb-4 flex items-center" style={{ marginTop: '957px' }}>
-            <p>더 내리세요</p>
+          <div className="h-96 bg-gray-200 mb-4 flex items-center PretendardVariable" style={{ marginTop: '957px' }}>
+            <p className='font-Pretendard-ExBold'>더 내리세요</p>
+            
           </div>
+          <UIComponent className="z-20"/>
           {/* <div className="h-96 bg-gray-300 mb-4">Scrollable Content 2</div>
           <div className="h-96 bg-gray-400 mb-4">Scrollable Content 3</div>
           <div className="h-96 bg-gray-500 mb-4">Scrollable Content 4</div> */}
