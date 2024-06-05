@@ -5,14 +5,21 @@ mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export const coord = {
   //seoul
-  init:{
+  0:{
+    lat:35.96595983935754,
+    lng:127.52614094993498,
+    bearing: 0,
+    pitch: 0,
+    zoom: 6.494604866073363
+  },
+  1:{
     lat:37.56786346227889,
     lng:126.9756051435611,
     bearing: 0,
     pitch: 0,
     zoom: 10.717126200821815
   },
-  center:{
+  2:{
     lat:37.55133914078637,
     lng:126.9757847023518,
     bearing: 0,
@@ -29,7 +36,7 @@ const geojson = {
       'type': 'Feature',
       'geometry': {
         'type': 'Point',
-        'coordinates': [126.978736, 37.586085]
+        'coordinates': [126.954736, 37.596085]
       },
       'properties': {
         'title': 'donui',
@@ -40,7 +47,7 @@ const geojson = {
       'type': 'Feature',
       'geometry': {
         'type': 'Point',
-        'coordinates': [127.026062,37.573729]
+        'coordinates': [127.048062,37.550729]
       },
       'properties': {
         'title': 'changsin',
@@ -51,7 +58,7 @@ const geojson = {
       'type': 'Feature',
       'geometry': {
         'type': 'Point',
-        'coordinates': [126.974137,37.545535]
+        'coordinates': [126.945137,37.519535]
       },
       'properties': {
         'title': 'dongja',
@@ -62,7 +69,7 @@ const geojson = {
       'type': 'Feature',
       'geometry': {
         'type': 'Point',
-        'coordinates': [126.907724,37.513448]
+        'coordinates': [126.875724,37.540448]
       },
       'properties': {
         'title': 'yeongdeungpo',
@@ -79,6 +86,7 @@ const MapB =(props) => {
   const [interactive, setInteractive] = useState(false);
   const [tool, setTool] = useState(true);
   const markers = useRef([]); //마커 관리
+  const [pastAction, setAction]=useState(0);
   
   //useEffect for mapbox
   useEffect(() => {
@@ -87,10 +95,10 @@ const MapB =(props) => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/endermaru/clw7k3lp201gl01ob8hri10ur',
-      center: [coord.init.lng,coord.init.lat],
-      zoom: coord.init.zoom,
-      pitch: coord.init.pitch,
-      bearing: coord.init.bearing,
+      center: [coord['0'].lng,coord['0'].lat],
+      zoom: coord['0'].zoom,
+      pitch: coord['0'].pitch,
+      bearing: coord['0'].bearing,
 
     });
     //load - 레이어 표시 및 쪽방촌 마커 추가
@@ -160,41 +168,40 @@ const MapB =(props) => {
     });
 
     //실시간 좌표 출력
-    // map.current.on('move',(e)=>{
-    //   const center = map.current.getCenter(); 
-    //   const bearing = map.current.getBearing();
-    //   const zoom = map.current.getZoom();
-    //   const pitch = map.current.getPitch();
+    map.current.on('move',(e)=>{
+      const center = map.current.getCenter(); 
+      const bearing = map.current.getBearing();
+      const zoom = map.current.getZoom();
+      const pitch = map.current.getPitch();
 
-    //   console.log('Current center:', center);
-    //   console.log('Current bearing:', bearing);
-    //   console.log('Current Pitch', pitch);
-    //   console.log('Current zooom', zoom);
-    // });
+      console.log('Current center:', center);
+      console.log('Current bearing:', bearing);
+      console.log('Current Pitch', pitch);
+      console.log('Current zooom', zoom);
+    });
     
     //map.current.addControl(new mapboxgl.NavigationControl())
   });
 
   //action - index와 통신
   useEffect(() => {
-    console.log(props.action, props.lng);
+    let timer;
     //이동
-    setTimeout(()=>{if (map.current) {
+    if (map.current) {
       map.current.flyTo({
-        duration : 2500,
-        center: [props.lng, props.lat],
-        zoom: props.zoom,
-        pitch: props.pitch,
-        bearing: props.bearing,
+        duration : 1000,
+        center: [coord[props.action].lng, coord[props.action].lat],
+        zoom: coord[props.action].zoom,
+        pitch: coord[props.action].pitch,
+        bearing: coord[props.action].bearing,
         essential: true,
       });
     }
-    },300);
 
     //단계별 메서드
     switch(props.action){
-      case 1:{
-        //레이어 비활성화 및 마커 제거
+      case 2:{
+        // 레이어 비활성화 및 마커 제거
         markers.current.forEach(marker => {
           const markerElement = marker.getElement();
           markerElement.classList.add('fade-out');
@@ -203,15 +210,35 @@ const MapB =(props) => {
           });
         });
         markers.current = [];
-  
-        const visi = map.current.getLayoutProperty('seoul1', 'visibility');
-        if (visi=='visible'){
-          map.current.setLayoutProperty('seoul1', 'visibility', 'none');
-          map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+        console.log(map.current.setLayoutProperty('seoul1','visibility'));
+        map.current.setLayoutProperty('seoul1', 'visibility', 'none');
+        map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+        break;
+      }
+      case 1:{
+        map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
+        map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
+        if (markers.current.length==0) {
+          for (const feature of geojson.features) {
+            const el = document.createElement('div');
+            el.className = "marker";
+            el.id = feature.properties.marker;
+            const marker = new mapboxgl.Marker(el)
+              .setLngLat(feature.geometry.coordinates)
+              .addTo(map.current);
+            markers.current.push(marker);
+          }
         }
         break;
       }
+      
     }
+    setAction(props.action);
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
   }, [props.action]); 
 
   //팝업 지우기
@@ -242,7 +269,6 @@ const MapB =(props) => {
   useEffect(()=>{
     removePopups();
     if (map.current) {
-      console.log("!");
       if (interactive){
         map.current['scrollZoom'].enable();
         map.current['boxZoom'].enable();
@@ -283,10 +309,10 @@ const MapB =(props) => {
         onClick={()=>{
           removePopups();
           map.current.flyTo({
-            center: [coord.center.lng,coord.center.lat],
-            zoom: coord.center.zoom,
-            pitch: coord.center.pitch,
-            bearing: coord.center.bearing,
+            center: [coord[2].lng,coord[2].lat],
+            zoom: coord[2].zoom,
+            pitch: coord[2].pitch,
+            bearing: coord[2].bearing,
             essential: true
           });
         }}>
