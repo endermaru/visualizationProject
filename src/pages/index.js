@@ -3,7 +3,7 @@ import MapB from "./components/map";
 
 export default function Home() {
   const [pageHeight, setPageHeight] = useState(0);
-  const maxPage = 2; // 예: 페이지 수가 5개로 늘어났다고 가정
+  const maxPage = 14; // 예: 페이지 수가 5개로 늘어났다고 가정
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -39,19 +39,6 @@ export default function Home() {
         event.preventDefault();
         if (loaded && !interactive && !isScrolling) {
           const direction = event.deltaY;
-          // if (direction > 0) { // 아래로
-          //   window.scrollTo({
-          //     top: scrollLocation[action + 1],
-          //     behavior: 'smooth'
-          //   });
-          //   setAction(action<2? action + 1:2);
-          // } else if (direction < 0) {
-          //   window.scrollTo({
-          //     top: scrollLocation[action - 1],
-          //     behavior: 'smooth'
-          //   });
-          //   setAction(action > 0 ? action - 1 : 0);
-          // }
           setIsScrolling(true);
 
           setAction((prevAction) => {

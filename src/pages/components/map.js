@@ -4,7 +4,6 @@ import mapboxgl from 'mapbox-gl';
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export const coord = {
-  //seoul
   0:{
     lat:35.96595983935754,
     lng:127.52614094993498,
@@ -12,14 +11,77 @@ export const coord = {
     pitch: 0,
     zoom: 6.494604866073363
   },
-  1:{
+  4:{
+    lat:35.96595983935754,
+    lng:127.52614094993498,
+    bearing: 0,
+    pitch: 0,
+    zoom: 6.494604866073363
+  },
+  5:{
     lat:37.56786346227889,
     lng:126.9756051435611,
     bearing: 0,
     pitch: 0,
     zoom: 10.717126200821815
   },
-  2:{
+  6:{
+    lat:37.55133914078637,
+    lng:126.9757847023518,
+    bearing: 0,
+    pitch: 53.54040022453836,
+    zoom: 15.527706568294564
+  },
+  7:{
+    lat:37.55310914423893,
+    lng:126.97491374080454,
+    bearing: -106.09379619305673,
+    pitch: 47.032349695931806,
+    zoom: 17.101811485926945
+  },
+  8:{
+    lat:37.55175130166363,
+    lng:126.9759452327421,
+    bearing: -91.69379619305704,
+    pitch: 56.53234969593183,
+    zoom: 15.549020252323029
+  },
+  9:{
+    lat:37.55175130166363,
+    lng:126.9759452327421,
+    bearing: -91.69379619305704,
+    pitch: 56.53234969593183,
+    zoom: 15.549020252323029
+  },
+  10:{
+    lat:37.552502824659,
+    lng:126.97479330298654,
+    bearing:177.8360761681016,
+    pitch: 52.19250780610645,
+    zoom: 20.656459609658704
+  },
+  11:{
+    lat:37.552527842342826,
+    lng:126.97472937273642,
+    bearing:0,
+    pitch: 40.19250780610648,
+    zoom: 20.656459609658704
+  },
+  12:{
+    lat:37.55304593767801,
+    lng:126.97409957669964,
+    bearing:-91.44751824890795,
+    pitch:58.225527380107785,
+    zoom: 20.26054336180608
+  },
+  13:{
+    lat:37.55133914078637,
+    lng:126.9757847023518,
+    bearing: 0,
+    pitch: 53.54040022453836,
+    zoom: 15.527706568294564
+  },
+  14:{
     lat:37.55133914078637,
     lng:126.9757847023518,
     bearing: 0,
@@ -84,7 +146,7 @@ const MapB =(props) => {
   const map = useRef(null); //맵 객체
   const [visible, setVisible] = useState(true); //기타 건물 표시 여부
   const [interactive, setInteractive] = useState(false);
-  const [tool, setTool] = useState(true);
+  const [tool, setTool] = useState(false);
   const markers = useRef([]); //마커 관리
   const [pastAction, setAction]=useState(0);
   const [loaded, setLoaded] = useState(false);
@@ -103,24 +165,14 @@ const MapB =(props) => {
 
     });
 
-    map.current.on('style.load',()=>{
+    //load - 레이어 표시
+    map.current.on('style.load', () => {
       setLoaded(true);
       props.getInfo(interactive,true);
-    })
-    //load - 레이어 표시 및 쪽방촌 마커 추가
-    map.current.on('style.load', () => {
       map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
       map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
       
-      for (const feature of geojson.features) {
-        const el = document.createElement('div');
-        el.className = "marker";
-        el.id = feature.properties.marker;
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat(feature.geometry.coordinates)
-          .addTo(map.current);
-        markers.current.push(marker);
-      }
+      map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
     });
 
     //팝업
@@ -192,20 +244,91 @@ const MapB =(props) => {
   //action - index와 통신
   useEffect(() => {
     let timer;
+    console.log("props.action:",props.action);
+    
+
     //이동
     if (loaded && !interactive) {
-      map.current.flyTo({
-        duration : 1000,
-        center: [coord[props.action].lng, coord[props.action].lat],
-        zoom: coord[props.action].zoom,
-        pitch: coord[props.action].pitch,
-        bearing: coord[props.action].bearing,
-        essential: true,
-      });
-
-      //단계별 메서드
+      if (props.action>=4) {
+        map.current.flyTo({
+          duration : 1000,
+          center: [coord[props.action].lng, coord[props.action].lat],
+          zoom: coord[props.action].zoom,
+          pitch: coord[props.action].pitch,
+          bearing: coord[props.action].bearing,
+          essential: true,
+        });
+      }
+      // 단계별 메서드
       switch(props.action){
-        case 2:{
+        case 14:{
+          setTool(true);
+          setInteractive(true);
+          break;
+        }
+        case 13:{
+          setTool(false);
+          setInteractive(false);
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_case3', 'visibility', 'none');
+          map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 1);
+          map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 1);
+          map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 1);
+          map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 1);
+          break;
+        }
+        case 12:{
+          map.current.setLayoutProperty('valid_case3', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_case2', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+          map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 0.3);
+          map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 0.3);
+          map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 0.3);
+          map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 0.3);
+          break;
+        }
+        case 11:{
+          map.current.setLayoutProperty('valid_case2', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_case1', 'visibility', 'none');
+
+          break;
+        }
+        case 10:{
+          map.current.setLayoutProperty('valid_case2', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_case1', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+          map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 0.3);
+          map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 0.3);
+          map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 0.3);
+          map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 0.3);
+          break;
+        }
+        case 9:{
+          map.current.setLayoutProperty('valid_case1', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
+          map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 1);
+          map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 1);
+          map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 1);
+          map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 1);
+        }
+        case 8:{
+          //기타 건물 토글
+          map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
+          setVisible(true);
+          break;
+        }
+        case 7:{
+          //기타 건물 토글
+          map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_others', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+          setVisible(false);
+          break;
+        }
+        case 6:{
           // 레이어 비활성화 및 마커 제거
           markers.current.forEach(marker => {
             const markerElement = marker.getElement();
@@ -217,25 +340,53 @@ const MapB =(props) => {
           markers.current = [];
           map.current.setLayoutProperty('seoul1', 'visibility', 'none');
           map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+          setVisible(true);
           break;
         }
-        case 1:{
-          map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
-          map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
-          if (markers.current.length==0) {
-            for (const feature of geojson.features) {
-              const el = document.createElement('div');
-              el.className = "marker";
-              el.id = feature.properties.marker;
-              const marker = new mapboxgl.Marker(el)
-                .setLngLat(feature.geometry.coordinates)
-                .addTo(map.current);
-              markers.current.push(marker);
+        case 5:{
+          setTimeout(()=>{
+            map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
+            map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
+            map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+            if (markers.current.length==0) {
+              for (const feature of geojson.features) {
+                const el = document.createElement('div');
+                el.className = "marker fade-in";
+                el.id = feature.properties.marker;
+                el.addEventListener('animationend', () => {
+                  el.classList.remove('fade-in');
+                });
+                const marker = new mapboxgl.Marker(el)
+                  .setLngLat(feature.geometry.coordinates)
+                  .addTo(map.current);
+                markers.current.push(marker);
+                
+              }
             }
-          }
+          },500);
+          
           break;
         }
+        case 4:{
+          //마커 제거
+          if (markers.current.length!=0){
+            markers.current.forEach(marker => {
+              const markerElement = marker.getElement();
+              markerElement.classList.add('fade-out');
+              markerElement.addEventListener('animationend', () => {
+                marker.remove();
+              });
+            });
+            markers.current = [];
+          }
+          break; 
+        }
+        
       }
+      console.log("marker length:",markers.current.length);
     }
     setAction(props.action);
     return () => {
@@ -243,7 +394,7 @@ const MapB =(props) => {
         clearTimeout(timer);
       }
     };
-  }, [props.action]); 
+  }, [props.action, visible, markers]); 
 
   //팝업 지우기
   const removePopups = ()=> {
@@ -298,7 +449,7 @@ const MapB =(props) => {
     <div className='fixed top-0 left-0 w-screen h-screen z-0'>
       
       <div className='z-0' ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
-      {tool && <div className="absolute flex flex-col z-10 top-4 right-4 px-1 rounded-md font-Pretendard-ExBold">
+      {tool && <div className="absolute flex flex-col z-10 top-4 right-4 px-1 rounded-md font-Pretendard-ExBold fade-in fade-out">
         <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>visibleToggle(e)}>
             <p className="text-xl">{!visible? "🗺️":"🔍"}</p>
@@ -314,10 +465,10 @@ const MapB =(props) => {
         onClick={()=>{
           removePopups();
           map.current.flyTo({
-            center: [coord[2].lng,coord[2].lat],
-            zoom: coord[2].zoom,
-            pitch: coord[2].pitch,
-            bearing: coord[2].bearing,
+            center: [coord[6].lng,coord[6].lat],
+            zoom: coord[6].zoom,
+            pitch: coord[6].pitch,
+            bearing: coord[6].bearing,
             essential: true
           });
         }}>
