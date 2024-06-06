@@ -1,188 +1,96 @@
-import { useEffect, useState, useRef } from "react";
-import mapboxgl from "mapbox-gl";
+import { useEffect, useState, useRef } from 'react';
+import MapB from './components/map'
 
-mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
+const scrollLocation ={
+  0:0,
+  1:1500,
+  2:3000,
+}
 
 export default function Home() {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
-  const [visible, setVisible] = useState(true);
-
-  const lat_init = 37.55220205704455;
-  const lng_init = 126.974485672578;
-  const bear_init = -92.40525969468547;
-  const pitch_init = 61.5;
-  const zoom_init = 15.605997843300576;
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: "mapbox://styles/endermaru/clw7k3lp201gl01ob8hri10ur",
-      center: [126.97455993492207, 37.552101067213684],
-      zoom: 16.899083437364837,
-      pitch: 48.500000000000036,
-      bearing: -94.47041015628895,
-      maxZoom: 18,
-      minZoom: 15,
-      attributionControl: false,
-    });
-
-    map.current.on("load", () => {
-      const delay = 2000;
-      setTimeout(() => {
-        map.current.flyTo({
-          center: [lng_init, lat_init],
-          zoom: zoom_init,
-          pitch: pitch_init,
-          bearing: bear_init,
-          essential: true,
-          duration: 2000,
-        });
-        map.current.dragPan.disable();
-        map.current.once("moveend", () => {
-          map.current.dragPan.enable();
-        });
-      }, delay);
-    });
-
-    //Valid others
-    map.current.on("click", "valid_others", (e) => {
-      let address = e.features[0].properties.address.slice(5);
-      new mapboxgl.Popup({ className: "popup-valid-others" })
-        .setLngLat(e.lngLat)
-        .setHTML(
-          `
-        <div style="color:white;">
-          일반 주거용 건물
-        </div>
-        <div style="color:white;font-size:15px;font-weight: bold;margin-bottom:7px;width:100%;">
-          ${address}
-        </div>
-        <hr style="border-color: white;"> 
-        <div style="color:white;font-weight: bold;font-size:15px;margin-top:7px">
-          폭염 불평등 지수: ${
-            Math.round(e.features[0].properties.score * 10) / 10
-          }점
-        </div>`
-        )
-        .addTo(map.current);
-    });
-    map.current.on("mouseenter", "valid_others", () => {
-      map.current.getCanvas().style.cursor = "pointer";
-    });
-    map.current.on("mouseleave", "valid_others", () => {
-      map.current.getCanvas().style.cursor = "";
-    });
-
-    //Valid target
-    map.current.on("click", "valid_target", (e) => {
-      let address = e.features[0].properties.address.slice(5);
-      new mapboxgl.Popup({ className: "popup-valid-target" })
-        .setLngLat(e.lngLat)
-        .setHTML(
-          `
-          <div style="color:white;">
-            쪽방촌 건물
-          </div>
-          <div style="color:white;font-size:15px;font-weight: bold;margin-bottom:7px;width:100%;">
-            ${address}
-          </div>
-          <hr style="border-color: white;"> 
-          <div style="color:white;font-weight: bold;font-size:15px;margin-top:7px">
-            폭염 불평등 지수: ${
-              Math.round(e.features[0].properties.score * 10) / 10
-            }점
-          </div>`
-        )
-        .addTo(map.current);
-    });
-
-    map.current.on("mouseenter", "valid_target", () => {
-      map.current.getCanvas().style.cursor = "pointer";
-    });
-    map.current.on("mouseleave", "valid_target", () => {
-      map.current.getCanvas().style.cursor = "";
-    });
-
-    map.current.on("move", (e) => {
-      const center = map.current.getCenter();
-      const bearing = map.current.getBearing();
-      const zoom = map.current.getZoom();
-      const pitch = map.current.getPitch();
-
-      console.log("Current center:", center);
-      console.log("Current bearing:", bearing);
-      console.log("Current zooom", zoom);
-      console.log("Current Pitch", pitch);
-    });
-    // Reset button functionality
-    document.getElementById("reset").addEventListener("click", () => {
-      map.current.flyTo({
-        center: [lng_init, lat_init],
-        zoom: zoom_init,
-        pitch: pitch_init,
-        bearing: bear_init,
-        essential: true,
-      });
-    });
-
-    map.current.addControl(new mapboxgl.FullscreenControl());
-    map.current.addControl(new mapboxgl.NavigationControl());
-  });
-
-  const visibleToggle = (e) => {
-    const popup = document.getElementsByClassName("mapboxgl-popup");
-    if (popup.length) {
-      popup[0].remove();
-    }
-    // Toggle layer visibility by changing the layout object's visibility property.
-    if (visible) {
-      map.current.setLayoutProperty("valid_others", "visibility", "none");
-    } else {
-      map.current.setLayoutProperty("valid_others", "visibility", "visible");
-    }
-    setVisible(!visible);
-  };
-
-  const [showImage, setShowImage] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowImage(false);
-    }, 3000); //delay
-
-    return () => clearTimeout(timer);
+    window.scrollTo({top: 0}); // 페이지 상단으로 스크롤
+    setAction(0);
   }, []);
 
+  //Map 컴포넌트 통신용
+  const [action, setAction] = useState(0);
+  const [interactive, setInteractive] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  useEffect(() => {
+    let timer;
+    const handleWheel = (event) => {
+      event.preventDefault();
+      if (loaded && !interactive && !isScrolling) {
+        const direction = event.deltaY;
+        if (direction > 0) { // 아래로
+          window.scrollTo({
+            top: scrollLocation[action + 1],
+            behavior: 'smooth'
+          });
+          setAction(action<2? action + 1:2);
+        } else if (direction < 0) {
+          window.scrollTo({
+            top: scrollLocation[action - 1],
+            behavior: 'smooth'
+          });
+          setAction(action > 0 ? action - 1 : 0);
+        }
+        setIsScrolling(true);
+        setTimeout(() => {
+          setIsScrolling(false);
+        }, 1000); // 현재는 1초로 설정되어 있지만 필요에 따라 조절할 수 있습니다.
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [action, isScrolling, interactive,loaded]);
+
+  const getInfo= (isInteractive, isLoaded)=>{
+    setInteractive(isInteractive);
+    setLoaded(isLoaded);
+  }
+
   return (
-    <main className="bg-black h-screen w-screen flex items-center">
-      {showImage && (
-        <div className="image bg-black absolute h-full w-full">
-          <img src="/dongja.png" className="image" />
-        </div>
-      )}
-      <div className="absolute flex flex-col z-10 top-36 right-0 px-1 rounded-md">
-        <button
-          className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`}
-          onClick={(e) => visibleToggle(e)}
-        >
-          <p className="text-2xl">{!visible ? "🗺️" : "🔍"}</p>
-          <p className="text-xs">{!visible ? "다른건물" : "쪽방촌만"}</p>
-          <p className="text-xs">{!visible ? "둘러보기" : "살펴보기"}</p>
-        </button>
-        <button
-          className="parent rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white hover:bg-white font-bold text-stone-700 hover:text-blue-600"
-          id="reset"
-        >
-          <p className="text-2xl rotate-on-hover">↻</p>
-          <p className="text-xs">처음으로</p>
-        </button>
-      </div>
-      <div
-        className="z-0"
-        ref={mapContainer}
-        style={{ width: "100vw", height: "100vh" }}
+    <main className="font-Pretendard-Regular scroll-smooth" style={{ height: '20000px' }}>
+      <MapB 
+        action={action}
+        getInfo={getInfo}
       />
+      <div className="relative z-10 ">
+        
+        {/* 커버 */}
+        <div className="relative faded-bottom overflow-hidden">
+          <img className="w-screen object-cover overflow-hidden grow-animation" src="cover.png" alt="Cover Image" />
+          <div className="absolute text-white top-0 left-0 flex flex-col text-left ml-[150px]">
+            <p className='mt-[250px] text-6xl'>더위는 모두에게 평등한가</p>
+            <p className="mt-[100px] text-8xl font-Pretendard-ExBold">동자동 폭염 불평등 지도로 보는<br/>여름의 비극</p>
+            <p className='mt-[250px] text-2xl'>{"*본 프로젝트는 한국일보, <도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방>을 데이터 시각화로서 재구성한 프로젝트입니다."}</p>
+          </div>
+        </div>
+
+        <div className="mt-[550px] h-screen text-white flex justify-center relative">
+            <div class="w-[924px] h-[70px] bg-black rouded-full faded-elipse"></div>
+            <p className='absolute font-Pretendard-ExBold text-6xl'>서울시에는 크게 네 군데의 쪽방촌이 있다.</p>
+        </div>
+
+        <div className="mt-4 flex flex-col">
+          
+          {/* <UIComponent className="z-20"/>
+          <div className="h-96 bg-gray-300 mb-4">Scrollable Content 2</div>
+          <div className="h-96 bg-gray-400 mb-4">Scrollable Content 3</div>
+          <div className="h-96 bg-gray-500 mb-4">Scrollable Content 4</div> */}
+        </div>
+      </div>
     </main>
+
   );
 }
