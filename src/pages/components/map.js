@@ -12,19 +12,33 @@ export const coord = {
     pitch: 0,
     zoom: 6.494604866073363
   },
-  1:{
+  4:{
+    lat:35.96595983935754,
+    lng:127.52614094993498,
+    bearing: 0,
+    pitch: 0,
+    zoom: 6.494604866073363
+  },
+  5:{
     lat:37.56786346227889,
     lng:126.9756051435611,
     bearing: 0,
     pitch: 0,
     zoom: 10.717126200821815
   },
-  2:{
+  6:{
     lat:37.55133914078637,
     lng:126.9757847023518,
     bearing: 0,
     pitch: 53.54040022453836,
     zoom: 15.527706568294564
+  },
+  7:{
+    lat:37.55310914423893,
+    lng:126.97491374080454,
+    bearing: -106.09379619305673,
+    pitch: 47.032349695931806,
+    zoom: 17.101811485926945
   },
 }
 
@@ -112,15 +126,15 @@ const MapB =(props) => {
       map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
       map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
       
-      for (const feature of geojson.features) {
-        const el = document.createElement('div');
-        el.className = "marker";
-        el.id = feature.properties.marker;
-        const marker = new mapboxgl.Marker(el)
-          .setLngLat(feature.geometry.coordinates)
-          .addTo(map.current);
-        markers.current.push(marker);
-      }
+      // for (const feature of geojson.features) {
+      //   const el = document.createElement('div');
+      //   el.className = "marker";
+      //   el.id = feature.properties.marker;
+      //   const marker = new mapboxgl.Marker(el)
+      //     .setLngLat(feature.geometry.coordinates)
+      //     .addTo(map.current);
+      //   markers.current.push(marker);
+      // }
     });
 
     //팝업
@@ -192,24 +206,35 @@ const MapB =(props) => {
   //action - index와 통신
   useEffect(() => {
     let timer;
+    console.log("props.action:",props.action);
+    
+
     //이동
     if (loaded && !interactive) {
-      map.current.flyTo({
-        duration : 1000,
-        center: [coord[props.action].lng, coord[props.action].lat],
-        zoom: coord[props.action].zoom,
-        pitch: coord[props.action].pitch,
-        bearing: coord[props.action].bearing,
-        essential: true,
-      });
-
-      //단계별 메서드
+      if (props.action>=4) {
+        map.current.flyTo({
+          duration : 1000,
+          center: [coord[props.action].lng, coord[props.action].lat],
+          zoom: coord[props.action].zoom,
+          pitch: coord[props.action].pitch,
+          bearing: coord[props.action].bearing,
+          essential: true,
+        });
+      }
+      // 단계별 메서드
       switch(props.action){
-        case 2:{
+        case 7:{
+          map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_others', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+          setVisible(false);
+          break;
+        }
+        case 6:{
           // 레이어 비활성화 및 마커 제거
           markers.current.forEach(marker => {
             const markerElement = marker.getElement();
-            markerElement.classList.add('fade-out');
+            // markerElement.classList.add('fade-out');
             markerElement.addEventListener('animationend', () => {
               marker.remove();
             });
@@ -217,25 +242,50 @@ const MapB =(props) => {
           markers.current = [];
           map.current.setLayoutProperty('seoul1', 'visibility', 'none');
           map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
+          setVisible(true);
           break;
         }
-        case 1:{
-          map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
-          map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
-          if (markers.current.length==0) {
-            for (const feature of geojson.features) {
-              const el = document.createElement('div');
-              el.className = "marker";
-              el.id = feature.properties.marker;
-              const marker = new mapboxgl.Marker(el)
-                .setLngLat(feature.geometry.coordinates)
-                .addTo(map.current);
-              markers.current.push(marker);
+        case 5:{
+          setTimeout(()=>{
+            map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
+            map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
+            map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+            if (markers.current.length==0) {
+              for (const feature of geojson.features) {
+                const el = document.createElement('div');
+                el.className = "marker fade-out";
+                el.id = feature.properties.marker;
+                const marker = new mapboxgl.Marker(el)
+                  .setLngLat(feature.geometry.coordinates)
+                  .addTo(map.current);
+                markers.current.push(marker);
+              }
             }
-          }
+          },500);
+          
           break;
         }
+        case 4:{
+          // 레이어 비활성화 및 마커 제거
+          if (markers.current.length!=0){
+            console.log("!!");
+            markers.current.forEach(marker => {
+              const markerElement = marker.getElement();
+              // markerElement.classList.add('fade-out');
+              markerElement.addEventListener('animationend', () => {
+                marker.remove();
+              });
+            });
+            markers.current = [];
+          }
+          break; 
+        }
+        
       }
+      console.log("marker length:",markers.current.length);
     }
     setAction(props.action);
     return () => {
@@ -243,7 +293,7 @@ const MapB =(props) => {
         clearTimeout(timer);
       }
     };
-  }, [props.action]); 
+  }, [props.action, visible, markers]); 
 
   //팝업 지우기
   const removePopups = ()=> {

@@ -30,7 +30,7 @@ export default function Home() {
             top: scrollLocation[action + 1],
             behavior: 'smooth'
           });
-          setAction(action<2? action + 1:2);
+          setAction(action<14? action + 1:14);
         } else if (direction < 0) {
           window.scrollTo({
             top: scrollLocation[action - 1],
@@ -78,7 +78,7 @@ export default function Home() {
         </div>
 
         <div className="mt-[550px] h-screen text-white flex justify-center relative">
-            <div class="w-[924px] h-[70px] bg-black rouded-full faded-elipse"></div>
+            <div className="w-[924px] h-[70px] bg-black rouded-full faded-elipse"></div>
             <p className='absolute font-Pretendard-ExBold text-6xl'>서울시에는 크게 네 군데의 쪽방촌이 있다.</p>
         </div>
 
