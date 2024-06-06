@@ -87,6 +87,7 @@ const MapB =(props) => {
   const [tool, setTool] = useState(true);
   const markers = useRef([]); //마커 관리
   const [pastAction, setAction]=useState(0);
+  const [loaded, setLoaded] = useState(false);
   
   //useEffect for mapbox
   useEffect(() => {
@@ -101,6 +102,11 @@ const MapB =(props) => {
       bearing: coord['0'].bearing,
 
     });
+
+    map.current.on('style.load',()=>{
+      setLoaded(true);
+      props.getInfo(interactive,true);
+    })
     //load - 레이어 표시 및 쪽방촌 마커 추가
     map.current.on('style.load', () => {
       map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
@@ -168,17 +174,17 @@ const MapB =(props) => {
     });
 
     //실시간 좌표 출력
-    map.current.on('move',(e)=>{
-      const center = map.current.getCenter(); 
-      const bearing = map.current.getBearing();
-      const zoom = map.current.getZoom();
-      const pitch = map.current.getPitch();
+    // map.current.on('move',(e)=>{
+    //   const center = map.current.getCenter(); 
+    //   const bearing = map.current.getBearing();
+    //   const zoom = map.current.getZoom();
+    //   const pitch = map.current.getPitch();
 
-      console.log('Current center:', center);
-      console.log('Current bearing:', bearing);
-      console.log('Current Pitch', pitch);
-      console.log('Current zooom', zoom);
-    });
+    //   console.log('Current center:', center);
+    //   console.log('Current bearing:', bearing);
+    //   console.log('Current Pitch', pitch);
+    //   console.log('Current zooom', zoom);
+    // });
     
     //map.current.addControl(new mapboxgl.NavigationControl())
   });
@@ -187,7 +193,7 @@ const MapB =(props) => {
   useEffect(() => {
     let timer;
     //이동
-    if (map.current) {
+    if (loaded && !interactive) {
       map.current.flyTo({
         duration : 1000,
         center: [coord[props.action].lng, coord[props.action].lat],
@@ -196,42 +202,40 @@ const MapB =(props) => {
         bearing: coord[props.action].bearing,
         essential: true,
       });
-    }
 
-    //단계별 메서드
-    switch(props.action){
-      case 2:{
-        // 레이어 비활성화 및 마커 제거
-        markers.current.forEach(marker => {
-          const markerElement = marker.getElement();
-          markerElement.classList.add('fade-out');
-          markerElement.addEventListener('animationend', () => {
-            marker.remove();
+      //단계별 메서드
+      switch(props.action){
+        case 2:{
+          // 레이어 비활성화 및 마커 제거
+          markers.current.forEach(marker => {
+            const markerElement = marker.getElement();
+            markerElement.classList.add('fade-out');
+            markerElement.addEventListener('animationend', () => {
+              marker.remove();
+            });
           });
-        });
-        markers.current = [];
-        console.log(map.current.setLayoutProperty('seoul1','visibility'));
-        map.current.setLayoutProperty('seoul1', 'visibility', 'none');
-        map.current.setLayoutProperty('seoul2', 'visibility', 'none');
-        break;
-      }
-      case 1:{
-        map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
-        map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
-        if (markers.current.length==0) {
-          for (const feature of geojson.features) {
-            const el = document.createElement('div');
-            el.className = "marker";
-            el.id = feature.properties.marker;
-            const marker = new mapboxgl.Marker(el)
-              .setLngLat(feature.geometry.coordinates)
-              .addTo(map.current);
-            markers.current.push(marker);
-          }
+          markers.current = [];
+          map.current.setLayoutProperty('seoul1', 'visibility', 'none');
+          map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+          break;
         }
-        break;
+        case 1:{
+          map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
+          map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
+          if (markers.current.length==0) {
+            for (const feature of geojson.features) {
+              const el = document.createElement('div');
+              el.className = "marker";
+              el.id = feature.properties.marker;
+              const marker = new mapboxgl.Marker(el)
+                .setLngLat(feature.geometry.coordinates)
+                .addTo(map.current);
+              markers.current.push(marker);
+            }
+          }
+          break;
+        }
       }
-      
     }
     setAction(props.action);
     return () => {
@@ -287,6 +291,7 @@ const MapB =(props) => {
         map.current['touchZoomRotate'].disable();
       }
     }
+    props.getInfo(interactive,loaded);
   },[interactive]);
 
   return (
