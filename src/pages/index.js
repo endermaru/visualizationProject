@@ -1,7 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import mapboxgl from 'mapbox-gl';
 import MapB from './components/map'
-import UIComponent from './components/UIComponents';
 
 const scrollLocation ={
   0:0,
@@ -9,28 +7,23 @@ const scrollLocation ={
   2:3000,
 }
 
-
 export default function Home() {
 
   useEffect(() => {
-    window.scrollTo(0, 0); // 페이지 상단으로 스크롤
+    window.scrollTo({top: 0}); // 페이지 상단으로 스크롤
     setAction(0);
   }, []);
 
   //Map 컴포넌트 통신용
   const [action, setAction] = useState(0);
-  // const [lat, setLat] = useState(coord.init.lat);
-  // const [lng, setLng] = useState(coord.init.lng);
-  // const [bearing,setBearing] = useState(coord.init.bearing);
-  // const [pitch, setPitch] = useState(coord.init.pitch);
-  // const [zoom, setZoom] = useState(coord.init.zoom);
-
+  const [interactive, setInteractive] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   useEffect(() => {
     let timer;
     const handleWheel = (event) => {
       event.preventDefault();
-      if (action!=2 && !isScrolling) {
+      if (loaded && !interactive && !isScrolling) {
         const direction = event.deltaY;
         if (direction > 0) { // 아래로
           window.scrollTo({
@@ -48,7 +41,7 @@ export default function Home() {
         setIsScrolling(true);
         setTimeout(() => {
           setIsScrolling(false);
-        }, 500); // 현재는 1초로 설정되어 있지만 필요에 따라 조절할 수 있습니다.
+        }, 1000); // 현재는 1초로 설정되어 있지만 필요에 따라 조절할 수 있습니다.
       }
     };
 
@@ -59,22 +52,24 @@ export default function Home() {
         clearTimeout(timer);
       }
     };
-  }, [action, isScrolling]);
+  }, [action, isScrolling, interactive,loaded]);
 
-  useEffect(()=>{
-    // console.log("active:",action);
-  },[action]);
+  const getInfo= (isInteractive, isLoaded)=>{
+    setInteractive(isInteractive);
+    setLoaded(isLoaded);
+  }
 
   return (
     <main className="font-Pretendard-Regular scroll-smooth" style={{ height: '20000px' }}>
       <MapB 
-        action={action} 
+        action={action}
+        getInfo={getInfo}
       />
       <div className="relative z-10 ">
         
         {/* 커버 */}
-        <div className="relative faded-bottom">
-          <img className="w-full object-cover" src="cover.png" alt="Cover Image" />
+        <div className="relative faded-bottom overflow-hidden">
+          <img className="w-screen object-cover overflow-hidden grow-animation" src="cover.png" alt="Cover Image" />
           <div className="absolute text-white top-0 left-0 flex flex-col text-left ml-[150px]">
             <p className='mt-[250px] text-6xl'>더위는 모두에게 평등한가</p>
             <p className="mt-[100px] text-8xl font-Pretendard-ExBold">동자동 폭염 불평등 지도로 보는<br/>여름의 비극</p>
