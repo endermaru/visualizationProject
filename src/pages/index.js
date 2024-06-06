@@ -99,16 +99,16 @@ export default function Home() {
             src="cover.png"
             alt="Cover Image"
           />
-          <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
-            <p className="mt-[20vh] text-4xl md:text-6xl">
-              더위는 모두에게 평등한가
-            </p>
-            <p className="mt-[5vh] text-6xl md:text-8xl font-Pretendard-ExBold">
-              동자동 폭염 불평등 지도로 보는
-              <br />
-              여름의 비극
-            </p>
-            <p className="mt-[20vh] text-xl md:text-2xl">
+          <div>
+            <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
+              <p className="mt-[20vh] text-[6vmin]">더위는 모두에게 평등한가</p>
+              <p className="mt-[5vh] text-[10vmin] leading-snug font-Pretendard-ExBold">
+                동자동 폭염 불평등 지도로 보는
+                <br />
+                여름의 비극
+              </p>
+            </div>
+            <p className="absolute text-white bottom-[20vh] text-left text-[3vmin] md:ml-[10%] mr-[10%] ml-[5%]">
               {
                 "*본 프로젝트는 한국일보, <도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방>을 데이터 시각화로서 재구성한 프로젝트입니다."
               }
