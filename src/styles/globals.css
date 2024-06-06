@@ -20,16 +20,12 @@
 }
 
 
-body {
-	font-family: Arial, Helvetica, sans-serif;
-}
-
-/* *{
+*{
     -ms-overflow-style: none;
 }
 ::-webkit-scrollbar {
     display: none;
-} */
+}
 
 .popup-valid-others .mapboxgl-popup-content {
 	color: #7a7a7a;
@@ -128,4 +124,21 @@ body {
     filter: blur(20px); /* blur radius can be adjusted to achieve the desired effect */
     border-radius: 50%; /* to make it an ellipse */
 	opacity: 30%;
+}
+
+@keyframes grow {
+	from {
+	  transform: scale(1);
+	}
+	to {
+	  transform: scale(1.2);
+	}
+  }
+  
+.grow-animation {
+	@apply animate-grow;
+}
+
+.animate-grow {
+	animation: grow 60s forwards; /* 3 seconds duration and forwards to retain the final state */
 }
