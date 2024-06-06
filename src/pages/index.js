@@ -24,24 +24,38 @@ export default function Home() {
       event.preventDefault();
       if (loaded && !interactive && !isScrolling) {
         const direction = event.deltaY;
-        if (direction > 0) {
-          // 아래로
-          window.scrollTo({
-            top: scrollLocation[action + 1],
-            behavior: "smooth",
-          });
-          setAction(action < 2 ? action + 1 : 2);
-        } else if (direction < 0) {
-          window.scrollTo({
-            top: scrollLocation[action - 1],
-            behavior: "smooth",
-          });
-          setAction(action > 0 ? action - 1 : 0);
-        }
+        // if (direction > 0) {
+        //   // 아래로
+        //   window.scrollTo({
+        //     top: scrollLocation[action + 1],
+        //     behavior: "smooth",
+        //   });
+        //   setAction(action < 2 ? action + 1 : 2);
+        // } else if (direction < 0) {
+        //   window.scrollTo({
+        //     top: scrollLocation[action - 1],
+        //     behavior: "smooth",
+        //   });
+        //   setAction(action > 0 ? action - 1 : 0);
+        // }
+        // setIsScrolling(true);
+        // setTimeout(() => {
+        //   setIsScrolling(false);
+        // }, 1000); // 현재는 1초로 설정되어 있지만 필요에 따라 조절할 수 있습니다.
+        // 변경 후
         setIsScrolling(true);
-        setTimeout(() => {
-          setIsScrolling(false);
-        }, 1000); // 현재는 1초로 설정되어 있지만 필요에 따라 조절할 수 있습니다.
+
+        setAction((prevAction) => {
+          const newAction =
+            direction > 0
+              ? Math.min(prevAction + 1, 2)
+              : Math.max(prevAction - 1, 0);
+          window.scrollTo({
+            top: scrollLocation[newAction],
+            behavior: "smooth",
+          });
+          return newAction;
+        });
       }
     };
 
