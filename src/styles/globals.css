@@ -5,16 +5,35 @@
 
 /* globals.css */
 
-body {
-	font-family: Arial, Helvetica, sans-serif;
+@font-face {
+	font-family: 'Pretendard-Regular';
+	font-weight: 400;
+	font-display: swap;
+	src: url(/font/Pretendard-Regular.woff2) format('woff2');
 }
-/* Overrides the original padding of the Popup component in the Map */
+
+@font-face {
+	font-family: 'Pretendard-ExtraBold';
+	font-weight: 400;
+	font-display: swap;
+	src: url(/font/Pretendard-ExtraBold.woff2) format('woff2');
+}
+
+
+*{
+    -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+    display: none;
+}
+
 .popup-valid-others .mapboxgl-popup-content {
 	color: #7a7a7a;
     background-color: #646464; /* 중립적인 파란색 */
     border-color: #2C3E50;
     box-shadow: 3px 3px 2px #2C3E50;
 	width: 200px;
+	font-family: Pretendard-Regular;
 }
 
 .popup-valid-target .mapboxgl-popup-content {
@@ -23,39 +42,103 @@ body {
     border-color: #C0392B;
 	box-shadow: 3px 3px 2px #491c1c;
 	width: 200px;
+	font-family: Pretendard-Regular;
 }
 
 .mapboxgl-popup-close-button{
 	display:none;
 }
 
+#marker1 {
+	background-image: url('/marker1.png');
+	background-size: cover;
+	width: 200px;
+	height: 200px;
+}
+#marker2 {
+	background-image: url('/marker2.png');
+	background-size: cover;
+	width: 200px;
+	height: 200px;
+}
+#marker3 {
+	background-image: url('/marker3.png');
+	background-size: cover;
+	width: 200px;
+	height: 200px;
+}
+#marker4 {
+	background-image: url('/marker4.png');
+	background-size: cover;
+	width: 200px;
+	height: 200px;
+}
 
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
 
 @keyframes fadeOut {
-	0% {
-	  opacity: 1;
+	from {
+		opacity: 1;
 	}
-	100% {
-	  opacity: 0;
+	to {
+		opacity: 0;
+	}
+}
+
+.fade-in {
+	animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadein {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+  
+.faded-bottom {
+	--mask: linear-gradient(to bottom, 
+		rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 90%, 
+		rgba(0,0,0, 0) 100%, rgba(0,0,0, 0) 0
+	) 100% 50% / 100% 100% repeat-x;
+	
+	-webkit-mask: var(--mask); 
+	mask: var(--mask);
+
+}
+
+.faded-top {
+	--mask: linear-gradient(to bottom, 
+		rgba(0,0,0, 0) 0,   rgba(0,0,0, 1) 10%, 
+		rgba(0,0,0, 1) 100%, rgba(0,0,0, 1) 0
+	) 100% 50% / 100% 100% repeat-x;
+	
+	-webkit-mask: var(--mask); 
+	mask: var(--mask);
+}
+
+.faded-elipse {
+    filter: blur(20px); /* blur radius can be adjusted to achieve the desired effect */
+    border-radius: 50%; /* to make it an ellipse */
+	opacity: 30%;
+}
+
+@keyframes grow {
+	from {
+	  transform: scale(1);
+	}
+	to {
+	  transform: scale(1.2);
 	}
   }
   
-.image {
-	opacity: 1;
-	animation: fadeOut 2s ease-out 1s forwards;
-	position: absolute;
-	top: 50%;
-  	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 100%;
-	z-index: 20; 
+.grow-animation {
+	@apply animate-grow;
 }
 
-@layer utilities {
-	.rotate-on-hover {
-		transition: transform 0.3s;
-	  }
-	.parent:hover .rotate-on-hover {
-	transform: rotate(360deg);
-	}
-  }
+.animate-grow {
+	animation: grow 60s forwards; /* 3 seconds duration and forwards to retain the final state */
+}
