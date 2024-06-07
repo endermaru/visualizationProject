@@ -181,6 +181,13 @@ export default function Home() {
     },
   ];
 
+  const getBackgroundStyle = (action) => {
+    console.log("action:", action);
+    return action >= 1 && action <= 4
+      ? { backgroundImage: "url('/background.png')" }
+      : {};
+  };
+
   return (
     <main
       className="font-Pretendard-Regular scroll-smooth"
@@ -210,12 +217,19 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className="attach-image w-screen h-screen"></div>
+        {/* <div className="attach-image w-screen h-screen"></div> */}
+        {/* 배경 이미지가 고정된 상태로 표시됨 */}
+        <div
+          className="attach-image w-screen h-screen"
+          style={getBackgroundStyle(action)}
+        ></div>
         {pageTexts.slice(1).map((pageText, index) => (
           <div
             key={index + 1}
             id={`page-${index + 1}`}
-            className="h-screen flex flex-col items-center justify-center text-white"
+            className={`h-screen flex flex-col items-center justify-center text-white page-${
+              index + 1
+            }`}
           >
             <div className="text-center font-Pretendard-ExBold text-[5vmin]">
               {pageText.content}
