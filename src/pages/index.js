@@ -32,6 +32,38 @@ export default function Home() {
   const [isScrolling, setIsScrolling] = useState(false);
 
   useEffect(() => {
+    document.querySelectorAll("p").forEach((p) => {
+      // 이미 line-wrapper가 있는 경우 무시합니다.
+      if (p.querySelector(".line-wrapper")) {
+        //console.log("Element already processed, skipping:", p);
+        return;
+      }
+
+      // console.log("Found <p> element:", p); // <p> 요소가 있는지 확인
+      const text = p.innerHTML;
+      // console.log("Original text:", text); // 기존 텍스트를 출력
+      p.innerHTML = ""; // 기존 텍스트를 제거합니다.
+
+      // 줄 바꿈 기준으로 텍스트를 나눕니다.
+      const lines = text.split("<br>");
+
+      lines.forEach((line, index) => {
+        const span = document.createElement("span");
+        span.innerHTML = line;
+        span.classList.add("line-wrapper");
+
+        // console.log("Creating <span> for line:", line); // 각 줄에 대해 <span> 생성 여부 확인
+        p.appendChild(span);
+
+        // 줄 바꿈을 추가합니다 (마지막 줄 제외).
+        if (index < lines.length - 1) {
+          p.appendChild(document.createElement("br"));
+        }
+      });
+
+      // console.log("Final HTML structure:", p.innerHTML); // 최종 <p> 구조 확인
+    });
+
     if (typeof window !== "undefined") {
       let timer;
 
@@ -89,13 +121,13 @@ export default function Home() {
           <div>
             <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
               <p className="mt-[20vh] text-[6vmin]">더위는 모두에게 평등한가</p>
-              <p className="mt-[5vh] text-[10vmin] leading-snug font-Pretendard-ExBold">
+              <p className="mt-[5vh] text-[8vmin] leading-tight font-Pretendard-ExBold">
                 동자동 폭염 불평등 지도로 보는
                 <br />
                 여름의 비극
               </p>
             </div>
-            <p className="absolute text-white bottom-[20vh] text-left text-[3vmin] md:ml-[10%] mr-[10%] ml-[5%]">
+            <p className="absolute text-white bottom-[20vh] text-left text-[2.7vmin] md:ml-[10%] mr-[10%] ml-[5%]">
               {
                 "*본 프로젝트는 한국일보, <도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방>을 데이터 시각화로서 재구성한 프로젝트입니다."
               }
@@ -103,15 +135,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-[50vh] h-screen text-white flex justify-center relative">
-          {/* <img
+        <div className="relative faded-bottom h-screen text-white flex justify-center relative">
+          <img
             className="w-screen h-screen object-cover overflow-hidden grow-animation"
-            src="cover.png"
-            alt="Cover Image"
-          /> */}
-          <div className="w-[90%] md:w-[50%] h-[10vh] bg-black rounded-full faded-elipse"></div>
+            src="background.png"
+            alt="Background Image"
+          />
           <p className="absolute font-Pretendard-ExBold text-4xl md:text-6xl text-center">
-            서울시에는 크게 네 군데의 쪽방촌이 있다.
+            매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이 된다.
           </p>
         </div>
 

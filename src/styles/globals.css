@@ -2,76 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* globals.css */
 
 @font-face {
-	font-family: 'Pretendard-Regular';
-	font-weight: 400;
-	font-display: swap;
-	src: url(/font/Pretendard-Regular.woff2) format('woff2');
+  font-family: "Pretendard-Regular";
+  font-weight: 400;
+  font-display: swap;
+  src: url(/font/Pretendard-Regular.woff2) format("woff2");
 }
 
 @font-face {
-	font-family: 'Pretendard-ExtraBold';
-	font-weight: 400;
-	font-display: swap;
-	src: url(/font/Pretendard-ExtraBold.woff2) format('woff2');
+  font-family: "Pretendard-ExtraBold";
+  font-weight: 400;
+  font-display: swap;
+  src: url(/font/Pretendard-ExtraBold.woff2) format("woff2");
 }
 
-
-*{
-    -ms-overflow-style: none;
+* {
+  -ms-overflow-style: none;
 }
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .popup-valid-others .mapboxgl-popup-content {
-	color: #7a7a7a;
-    background-color: #646464; /* 중립적인 파란색 */
-    border-color: #2C3E50;
-    box-shadow: 3px 3px 2px #2C3E50;
-	width: 200px;
-	font-family: Pretendard-Regular;
+  color: #7a7a7a;
+  background-color: #646464; /* 중립적인 파란색 */
+  border-color: #2c3e50;
+  box-shadow: 3px 3px 2px #2c3e50;
+  width: 200px;
+  font-family: Pretendard-Regular;
 }
 
 .popup-valid-target .mapboxgl-popup-content {
-	color: #ffffff;
-    background-color: #da4213; 
-    border-color: #C0392B;
-	box-shadow: 3px 3px 2px #491c1c;
-	width: 200px;
-	font-family: Pretendard-Regular;
+  color: #ffffff;
+  background-color: #da4213;
+  border-color: #c0392b;
+  box-shadow: 3px 3px 2px #491c1c;
+  width: 200px;
+  font-family: Pretendard-Regular;
 }
 
-.mapboxgl-popup-close-button{
-	display:none;
+.mapboxgl-popup-close-button {
+  display: none;
 }
 
 #marker1 {
-	background-image: url('/marker1.png');
-	background-size: cover;
-	width: 200px;
-	height: 200px;
+  background-image: url("/marker1.png");
+  background-size: cover;
+  width: 200px;
+  height: 200px;
 }
 #marker2 {
-	background-image: url('/marker2.png');
-	background-size: cover;
-	width: 200px;
-	height: 200px;
+  background-image: url("/marker2.png");
+  background-size: cover;
+  width: 200px;
+  height: 200px;
 }
 #marker3 {
-	background-image: url('/marker3.png');
-	background-size: cover;
-	width: 200px;
-	height: 200px;
+  background-image: url("/marker3.png");
+  background-size: cover;
+  width: 200px;
+  height: 200px;
 }
 #marker4 {
-	background-image: url('/marker4.png');
-	background-size: cover;
-	width: 200px;
-	height: 200px;
+  background-image: url("/marker4.png");
+  background-size: cover;
+  width: 200px;
+  height: 200px;
 }
 
 .fade-out {
@@ -79,66 +77,121 @@
 }
 
 @keyframes fadeOut {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .fade-in {
-	animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.5s ease-in-out;
 }
 @keyframes fadeIn {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 1;
-	}
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-  
-.faded-bottom {
-	--mask: linear-gradient(to bottom, 
-		rgba(0,0,0, 1) 0,   rgba(0,0,0, 1) 90%, 
-		rgba(0,0,0, 0) 100%, rgba(0,0,0, 0) 0
-	) 100% 50% / 100% 100% repeat-x;
-	
-	-webkit-mask: var(--mask); 
-	mask: var(--mask);
 
+.faded-bottom {
+  --mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 1) 0,
+      rgba(0, 0, 0, 1) 90%,
+      rgba(0, 0, 0, 0) 100%,
+      rgba(0, 0, 0, 0) 0
+    )
+    100% 50% / 100% 100% repeat-x;
+
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
 }
 
 .faded-top {
-	--mask: linear-gradient(to bottom, 
-		rgba(0,0,0, 0) 0,   rgba(0,0,0, 1) 10%, 
-		rgba(0,0,0, 1) 100%, rgba(0,0,0, 1) 0
-	) 100% 50% / 100% 100% repeat-x;
-	
-	-webkit-mask: var(--mask); 
-	mask: var(--mask);
+  --mask: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0,
+      rgba(0, 0, 0, 1) 10%,
+      rgba(0, 0, 0, 1) 100%,
+      rgba(0, 0, 0, 1) 0
+    )
+    100% 50% / 100% 100% repeat-x;
+
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
 }
 
 .faded-elipse {
-    filter: blur(20px); /* blur radius can be adjusted to achieve the desired effect */
-    border-radius: 50%; /* to make it an ellipse */
-	opacity: 30%;
+  filter: blur(
+    20px
+  ); /* blur radius can be adjusted to achieve the desired effect */
+  border-radius: 50%; /* to make it an ellipse */
+  opacity: 30%;
+}
+
+/*
+p::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 1.2em;
+  transform: translate(-50%, -50%);
+  z-index: -1; /* 텍스트 뒤에 위치하게 만듦
+  filter: blur(20px);
+  border-radius: 50%;
+  opacity: 30%;
+  background-color: rgba(0, 0, 0, 1);
+}
+*/
+
+/* 부모 요소가 상대적 위치를 갖도록 설정 */
+p {
+  position: relative;
+  z-index: 5;
+  /* margin: 20px 0; */
+}
+
+.line-wrapper {
+  position: relative;
+  display: inline-block; /* 텍스트 줄바꿈에 맞추기 */
+  z-index: 7;
+}
+
+.line-wrapper::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: 1em;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  filter: blur(1rem);
+  border-radius: 40%;
+  opacity: 30%;
+  background-color: rgba(0, 0, 0, 1);
+  pointer-events: none;
 }
 
 @keyframes grow {
-	from {
-	  transform: scale(1);
-	}
-	to {
-	  transform: scale(1.2);
-	}
+  from {
+    transform: scale(1);
   }
-  
+  to {
+    transform: scale(1.2);
+  }
+}
+
 .grow-animation {
-	@apply animate-grow;
+  @apply animate-grow;
 }
 
 .animate-grow {
-	animation: grow 60s forwards; /* 3 seconds duration and forwards to retain the final state */
+  animation: grow 60s forwards; /* 3 seconds duration and forwards to retain the final state */
 }
