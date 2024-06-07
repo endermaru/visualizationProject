@@ -135,14 +135,14 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative faded-bottom h-screen text-white flex justify-center relative">
+        <div className="relative faded-top faded-bottom h-screen text-white flex justify-center items-center relative">
           <img
             className="w-screen h-screen object-cover overflow-hidden grow-animation"
             src="background.png"
             alt="Background Image"
           />
-          <p className="absolute font-Pretendard-ExBold text-4xl md:text-6xl text-center">
-            매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이 된다.
+          <p className="absolute font-Pretendard-ExBold text-[5vmin] text-center">
+            매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이다.
           </p>
         </div>
 
