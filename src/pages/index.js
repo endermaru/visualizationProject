@@ -31,39 +31,32 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
+  // 기존 useEffect 내용 중 line-wrapper 관련 부분
   useEffect(() => {
     document.querySelectorAll("p").forEach((p) => {
-      // 이미 line-wrapper가 있는 경우 무시합니다.
       if (p.querySelector(".line-wrapper")) {
-        //console.log("Element already processed, skipping:", p);
         return;
       }
 
-      // console.log("Found <p> element:", p); // <p> 요소가 있는지 확인
       const text = p.innerHTML;
-      // console.log("Original text:", text); // 기존 텍스트를 출력
-      p.innerHTML = ""; // 기존 텍스트를 제거합니다.
+      p.innerHTML = "";
 
-      // 줄 바꿈 기준으로 텍스트를 나눕니다.
       const lines = text.split("<br>");
 
       lines.forEach((line, index) => {
         const span = document.createElement("span");
         span.innerHTML = line;
         span.classList.add("line-wrapper");
-
-        // console.log("Creating <span> for line:", line); // 각 줄에 대해 <span> 생성 여부 확인
         p.appendChild(span);
 
-        // 줄 바꿈을 추가합니다 (마지막 줄 제외).
         if (index < lines.length - 1) {
           p.appendChild(document.createElement("br"));
         }
       });
-
-      // console.log("Final HTML structure:", p.innerHTML); // 최종 <p> 구조 확인
     });
-
+  }, []); // 한 번만 실행되도록 빈 의존성 배열 사용
+  // 기존 useEffect 내용 중 wheel 이벤트 관리 부분
+  useEffect(() => {
     if (typeof window !== "undefined") {
       let timer;
 
@@ -97,7 +90,7 @@ export default function Home() {
         if (timer) clearTimeout(timer);
       };
     }
-  }, [action, loaded, interactive, isScrolling, pageHeight, scrollLocation]);
+  }, [action, loaded, interactive, isScrolling, pageHeight, scrollLocation]); // 필요한 의존성 배열 사용
 
   const getInfo = (isInteractive, isLoaded) => {
     setInteractive(isInteractive);
@@ -117,10 +110,18 @@ export default function Home() {
     },
     {
       content: (
-        <p>
-          KBS의 보도 자료에 따르면, <br /> 한여름 쪽방촌의 표면 온도는 아파트에
-          비해 <span style={{ color: "red" }}>30도</span> 가량 높았다.
-        </p>
+        <div>
+          <p>
+            KBS의 보도 자료에 따르면, <br /> 한여름 쪽방촌의 표면 온도는
+            아파트에 비해 <span style={{ color: "red" }}>30도</span> 가량
+            높았다.
+          </p>
+          <img src="/표면온도.png" />
+          <p>
+            이예린, [폭염격차]① 쪽방촌 표면 온도 ‘30도 더 뜨거웠다’,
+            《KBS뉴스》, 2022.07.23.
+          </p>
+        </div>
       ),
     },
     {
@@ -193,7 +194,7 @@ export default function Home() {
 
   const getBackgroundStyle = (action) => {
     console.log("action:", action);
-    return action >= 1 && action <= 4
+    return action >= 0 && action <= 4
       ? { backgroundImage: "url('/background.png')" }
       : {};
   };
