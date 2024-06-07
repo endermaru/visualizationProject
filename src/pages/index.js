@@ -110,14 +110,14 @@ export default function Home() {
       style={{ height: "20000px" }}
     >
       <MapB action={action} getInfo={getInfo} />
-      <div className="relative z-10 ">
+      <div className="relative z-10">
         {/* 커버 */}
-        <div className="relative faded-bottom overflow-hidden">
-          <img
+        <div className="cover w-screen h-screen faded-bottom overflow-hidden">
+          {/*<img
             className="w-screen h-screen object-cover overflow-hidden grow-animation"
             src="cover.png"
             alt="Cover Image"
-          />
+          />*/}
           <div>
             <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
               <p className="mt-[20vh] text-[6vmin]">더위는 모두에게 평등한가</p>
@@ -135,16 +135,20 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative h-screen text-white flex justify-center items-center relative">
-          <img
+        <div className="attach-image w-screen h-screen faded-both text-white flex justify-center items-center relative">
+          {/* <img
             className="w-screen faded-top faded-bottom h-screen object-cover overflow-hidden grow-animation"
             src="background.png"
             alt="Background Image"
-          />
+          />*/}
           <p className="absolute font-Pretendard-ExBold text-[5vmin] text-center">
             매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이다.
           </p>
         </div>
+        <p className="absolute font-Pretendard-ExBold text-[5vmin] text-center">
+          KBS의 보도 자료에 따르면, 한여름 쪽방촌의 표면 온도는 아파트에 비해
+          30도 가량 높았다.
+        </p>
 
         <div className="mt-4 flex flex-col">
           {/* <UIComponent className="z-20"/>
