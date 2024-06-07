@@ -135,9 +135,9 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative faded-top faded-bottom h-screen text-white flex justify-center items-center relative">
+        <div className="relative h-screen text-white flex justify-center items-center relative">
           <img
-            className="w-screen h-screen object-cover overflow-hidden grow-animation"
+            className="w-screen faded-top faded-bottom h-screen object-cover overflow-hidden grow-animation"
             src="background.png"
             alt="Background Image"
           />
