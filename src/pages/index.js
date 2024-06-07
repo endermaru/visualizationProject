@@ -104,58 +104,124 @@ export default function Home() {
     setLoaded(isLoaded);
   };
 
+  const pageTexts = [
+    {
+      subtitle: "더위는 모두에게 평등한가",
+      title1: "동자동 폭염 불평등 지도로 보는",
+      title2: "여름의 비극",
+      description:
+        "*본 프로젝트는 한국일보, <도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방>을 데이터 시각화로서 재구성한 프로젝트입니다.",
+    },
+    {
+      content: <p>매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이다.</p>,
+    },
+    {
+      content: (
+        <p>
+          KBS의 보도 자료에 따르면, <br /> 한여름 쪽방촌의 표면 온도는 아파트에
+          비해 <span style={{ color: "red" }}>30도</span> 가량 높았다.
+        </p>
+      ),
+    },
+    {
+      content: (
+        <p>
+          한국환경연구원의 조사 결과, <br />
+          한여름 쪽방촌의 실내 최고 온도는{" "}
+          <span style={{ color: "red" }}>34.9도</span>로 <br />
+          단독주택이나 아파트보다 평균 <span style={{ color: "red" }}>
+            3도
+          </span>{" "}
+          안팎으로 높았다.
+        </p>
+      ),
+    },
+    {
+      content: (
+        <p>
+          이에 본 프로젝트는 서울시 4대 쪽방촌 중<br />
+          국내 최대 규모 쪽방촌인 <span style={{ color: "red" }}>동자동</span>의
+          폭염 불평등 실태를 조사하였다.
+        </p>
+      ),
+    },
+    {
+      content: (
+        <p>
+          폭염 불평등 실태를 나타내는 점수는 <br />
+          면적당 전력 사용량, 건물 연한과 단열 등급을 반영한 계산식으로
+          도출하였다.
+        </p>
+      ),
+    },
+    {
+      content: (
+        <p>
+          쪽방촌 일대의 폭염 불평등 점수는 평균{" "}
+          <span style={{ color: "red" }}>00점</span>으로 나타났다.
+        </p>
+      ),
+    },
+    {
+      content: (
+        <p>
+          쪽방촌을 제외한 동자동 일대의 폭염 불평등 점수는 평균{" "}
+          <span style={{ color: "blue" }}>00점</span>으로 나타났다.
+        </p>
+      ),
+    },
+    {
+      content: (
+        <p>
+          그렇다면 동자동 쪽방촌 건물 소유주들의
+          <br />
+          주거 환경은 어떠할까?
+        </p>
+      ),
+    },
+  ];
+
   return (
     <main
       className="font-Pretendard-Regular scroll-smooth"
-      style={{ height: "20000px" }}
+      style={{ height: `${(maxPage + 1) * 100}vh` }}
     >
       <MapB action={action} getInfo={getInfo} />
+
+      {/* 배경 이미지가 고정된 상태로 표시됨 */}
       <div className="relative z-10">
         {/* 커버 */}
-        <div className="cover w-screen h-screen faded-bottom overflow-hidden">
-          {/*<img
-            className="w-screen h-screen object-cover overflow-hidden grow-animation"
-            src="cover.png"
-            alt="Cover Image"
-          />*/}
-          <div>
+        <div
+          id="page-0"
+          className="cover w-screen h-screen faded-bottom overflow-hidden"
+        >
+          <div className="w-screen h-screen">
             <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
-              <p className="mt-[20vh] text-[6vmin]">더위는 모두에게 평등한가</p>
+              <p className="mt-[20vh] text-[6vmin]">{pageTexts[0].subtitle}</p>
               <p className="mt-[5vh] text-[8vmin] leading-tight font-Pretendard-ExBold">
-                동자동 폭염 불평등 지도로 보는
-                <br />
-                여름의 비극
+                {pageTexts[0].title1}
+              </p>
+              <p className="text-[8vmin] leading-tight font-Pretendard-ExBold">
+                {pageTexts[0].title2}
               </p>
             </div>
             <p className="absolute text-white bottom-[20vh] text-left text-[2.7vmin] md:ml-[10%] mr-[10%] ml-[5%]">
-              {
-                "*본 프로젝트는 한국일보, <도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방>을 데이터 시각화로서 재구성한 프로젝트입니다."
-              }
+              {pageTexts[0].description}
             </p>
           </div>
         </div>
-
-        <div className="attach-image w-screen h-screen faded-both text-white flex justify-center items-center relative">
-          {/* <img
-            className="w-screen faded-top faded-bottom h-screen object-cover overflow-hidden grow-animation"
-            src="background.png"
-            alt="Background Image"
-          />*/}
-          <p className="absolute font-Pretendard-ExBold text-[5vmin] text-center">
-            매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이다.
-          </p>
-        </div>
-        <p className="absolute font-Pretendard-ExBold text-[5vmin] text-center">
-          KBS의 보도 자료에 따르면, 한여름 쪽방촌의 표면 온도는 아파트에 비해
-          30도 가량 높았다.
-        </p>
-
-        <div className="mt-4 flex flex-col">
-          {/* <UIComponent className="z-20"/>
-          <div className="h-96 bg-gray-300 mb-4">Scrollable Content 2</div>
-          <div className="h-96 bg-gray-400 mb-4">Scrollable Content 3</div>
-          <div className="h-96 bg-gray-500 mb-4">Scrollable Content 4</div> */}
-        </div>
+        <div className="attach-image w-screen h-screen"></div>
+        {pageTexts.slice(1).map((pageText, index) => (
+          <div
+            key={index + 1}
+            id={`page-${index + 1}`}
+            className="h-screen flex flex-col items-center justify-center text-white"
+          >
+            <div className="text-center font-Pretendard-ExBold text-[5vmin]">
+              {pageText.content}
+            </div>
+          </div>
+        ))}
       </div>
     </main>
   );
