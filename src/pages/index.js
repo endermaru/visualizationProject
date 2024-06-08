@@ -110,14 +110,17 @@ export default function Home() {
     },
     {
       content: (
-        <div>
+        <div className="flex flex-col items-center justify-center">
           <p>
             KBS의 보도 자료에 따르면, <br /> 한여름 쪽방촌의 표면 온도는
-            아파트에 비해 <span style={{ color: "red" }}>30도</span> 가량
+            아파트에 비해{" "}
+            <span style={{ color: "#FE5657" /* red */ }}>30도</span> 가량
             높았다.
           </p>
-          <img src="/표면온도.png" />
-          <p>
+          <div class="flex justify-center my-[3vmin] w-[75%]">
+            <img src="/표면온도.png" class="w-full" />
+          </div>
+          <p className="font-Pretendard-Regular text-[3vmin]">
             이예린, [폭염격차]① 쪽방촌 표면 온도 ‘30도 더 뜨거웠다’,
             《KBS뉴스》, 2022.07.23.
           </p>
@@ -126,34 +129,33 @@ export default function Home() {
     },
     {
       content: (
-        <p>
-          한국환경연구원의 조사 결과, <br />
-          한여름 쪽방촌의 실내 최고 온도는{" "}
-          <span style={{ color: "red" }}>34.9도</span>로 <br />
-          단독주택이나 아파트보다 평균 <span style={{ color: "red" }}>
-            3도
-          </span>{" "}
-          안팎으로 높았다.
-        </p>
+        <p>이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,</p>
       ),
     },
     {
       content: (
-        <p>
-          이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,
-          <br />
-          쪽방촌 주민이 기후 위기에 준 영향은 적으나 <br />
-          피해를 입는 정도는 크다는 점에서 폭염 불평등에 해당한다.
-        </p>
+        <div>
+          <p>
+            쪽방촌 주민이 기후 위기에 준 영향은 적으나 피해를 입는 정도는 크다는
+            점에서 <br />
+          </p>
+          <p className="text-[6vmin]">
+            <span style={{ color: "#FE5657" /* red */ }}>폭염 불평등</span>에
+            해당한다.
+          </p>
+        </div>
       ),
     },
     {
       content: (
-        <p>
-          이에 본 프로젝트는 서울시 4대 쪽방촌 중<br />
-          국내 최대 규모 쪽방촌인 <span style={{ color: "red" }}>동자동</span>의
-          폭염 불평등 실태를 조사하였다.
-        </p>
+        <div className="my-[10vmin]">
+          <p>
+            이에 본 프로젝트는 서울시 4대 쪽방촌 중<br />
+            국내 최대 규모 쪽방촌인{" "}
+            <span style={{ color: "#FE5657" /* red */ }}>동자동</span>의 폭염
+            불평등 실태를 조사하였다.
+          </p>
+        </div>
       ),
     },
     {
@@ -167,17 +169,19 @@ export default function Home() {
     },
     {
       content: (
-        <p>
+        <p className="my-[10vmin]">
           쪽방촌 일대의 폭염 불평등 점수는 평균{" "}
-          <span style={{ color: "red" }}>00점</span>으로 나타났다.
+          <span style={{ color: "#FE5657" /* red */ }}>59.7점</span>으로
+          나타났다.
         </p>
       ),
     },
     {
       content: (
-        <p>
+        <p className="my-[10vmin]">
           쪽방촌을 제외한 동자동 일대의 폭염 불평등 점수는 평균{" "}
-          <span style={{ color: "blue" }}>00점</span>으로 나타났다.
+          <span style={{ color: "#8BC1E8" /* blue */ }}>55.7점</span>으로
+          나타났다.
         </p>
       ),
     },
@@ -238,11 +242,15 @@ export default function Home() {
           <div
             key={index + 1}
             id={`page-${index + 1}`}
-            className={`h-screen flex flex-col items-center justify-center text-white page-${
-              index + 1
-            }`}
+            className={`h-screen flex flex-col items-center text-white ${
+              index + 1 === 5
+                ? "justify-start"
+                : index + 1 === 7 || index + 1 === 8
+                ? "justify-end"
+                : "justify-center"
+            } page-${index + 1}`}
           >
-            <div className="text-center font-Pretendard-ExBold text-[5vmin]">
+            <div className="text-center font-Pretendard-ExBold text-[4vmin]">
               {pageText.content}
             </div>
           </div>
