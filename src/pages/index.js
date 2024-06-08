@@ -77,9 +77,10 @@ export default function Home() {
     }
   }; 
   const handleKeyDown = (event) => {
-    event.preventDefault(); 
+    
     let flag = (event.key==='ArrowUp' || event.key==='ArrowDown' || event.key==='ArrowLeft' || event.key==='ArrowRight')? true:false;
     if (flag && typeof window !== "undefined"){
+      //event.preventDefault(); 
       if (!interRef.current) {
         window.removeEventListener("keydown", handleKeyDown);
         const direction = (event.key==='ArrowUp'|| event.key==='ArrowLeft')? -1:1;
@@ -106,12 +107,13 @@ export default function Home() {
     event.preventDefault();
   } 
   const disableKeyDown = (event) =>{
-    event.preventDefault();
+    let flag = (event.key==='ArrowUp' || event.key==='ArrowDown' || event.key==='ArrowLeft' || event.key==='ArrowRight')? true:false;
+    if (flag) event.preventDefault();
   }
 
   useEffect(()=>{
     //리셋
-    setAction(0);
+    setAction(13);
     actionRef.current=0;
     window.scrollTo({top:0});
     window.addEventListener("wheel", handleWheel, { passive: false });
