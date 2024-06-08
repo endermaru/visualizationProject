@@ -3,6 +3,10 @@
 @tailwind utilities;
 
 /* globals.css */
+html,
+body {
+  scroll-behavior: smooth;
+}
 
 @font-face {
   font-family: "Pretendard-Regular";

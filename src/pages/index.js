@@ -32,39 +32,32 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
 
+  // 기존 useEffect 내용 중 line-wrapper 관련 부분
   useEffect(() => {
     document.querySelectorAll("p").forEach((p) => {
-      // 이미 line-wrapper가 있는 경우 무시합니다.
       if (p.querySelector(".line-wrapper")) {
-        //console.log("Element already processed, skipping:", p);
         return;
       }
 
-      // console.log("Found <p> element:", p); // <p> 요소가 있는지 확인
       const text = p.innerHTML;
-      // console.log("Original text:", text); // 기존 텍스트를 출력
-      p.innerHTML = ""; // 기존 텍스트를 제거합니다.
+      p.innerHTML = "";
 
-      // 줄 바꿈 기준으로 텍스트를 나눕니다.
       const lines = text.split("<br>");
 
       lines.forEach((line, index) => {
         const span = document.createElement("span");
         span.innerHTML = line;
         span.classList.add("line-wrapper");
-
-        // console.log("Creating <span> for line:", line); // 각 줄에 대해 <span> 생성 여부 확인
         p.appendChild(span);
 
-        // 줄 바꿈을 추가합니다 (마지막 줄 제외).
         if (index < lines.length - 1) {
           p.appendChild(document.createElement("br"));
         }
       });
-
-      // console.log("Final HTML structure:", p.innerHTML); // 최종 <p> 구조 확인
     });
-
+  }, []); // 한 번만 실행되도록 빈 의존성 배열 사용
+  // 기존 useEffect 내용 중 wheel 이벤트 관리 부분
+  useEffect(() => {
     if (typeof window !== "undefined") {
       let timer;
 
@@ -98,7 +91,7 @@ export default function Home() {
         if (timer) clearTimeout(timer);
       };
     }
-  }, [action, loaded, interactive, isScrolling, pageHeight, scrollLocation]);
+  }, [action, loaded, interactive, isScrolling, pageHeight, scrollLocation]); // 필요한 의존성 배열 사용
 
   const getInfo = (isInteractive, isLoaded) => {
     setInteractive(isInteractive);
@@ -118,42 +111,52 @@ export default function Home() {
     },
     {
       content: (
-        <p>
-          KBS의 보도 자료에 따르면, <br /> 한여름 쪽방촌의 표면 온도는 아파트에
-          비해 <span style={{ color: "red" }}>30도</span> 가량 높았다.
-        </p>
+        <div className="flex flex-col items-center justify-center">
+          <p>
+            KBS의 보도 자료에 따르면, <br /> 한여름 쪽방촌의 표면 온도는
+            아파트에 비해{" "}
+            <span style={{ color: "#FE5657" /* red */ }}>30도</span> 가량
+            높았다.
+          </p>
+          <div class="flex justify-center my-[3vmin] w-[75%]">
+            <img src="/표면온도.png" class="w-full" />
+          </div>
+          <p className="font-Pretendard-Regular text-[3vmin]">
+            이예린, [폭염격차]① 쪽방촌 표면 온도 ‘30도 더 뜨거웠다’,
+            《KBS뉴스》, 2022.07.23.
+          </p>
+        </div>
       ),
     },
     {
       content: (
-        <p>
-          한국환경연구원의 조사 결과, <br />
-          한여름 쪽방촌의 실내 최고 온도는{" "}
-          <span style={{ color: "red" }}>34.9도</span>로 <br />
-          단독주택이나 아파트보다 평균 <span style={{ color: "red" }}>
-            3도
-          </span>{" "}
-          안팎으로 높았다.
-        </p>
+        <p>이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,</p>
       ),
     },
     {
       content: (
-        <p>
-          이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,
-          <br />
-          쪽방촌 주민이 기후 위기에 준 영향은 적으나 <br />
-          피해를 입는 정도는 크다는 점에서 폭염 불평등에 해당한다.
-        </p>
+        <div>
+          <p>
+            쪽방촌 주민이 기후 위기에 준 영향은 적으나 피해를 입는 정도는 크다는
+            점에서 <br />
+          </p>
+          <p className="text-[6vmin]">
+            <span style={{ color: "#FE5657" /* red */ }}>폭염 불평등</span>에
+            해당한다.
+          </p>
+        </div>
       ),
     },
     {
       content: (
-        <p>
-          이에 본 프로젝트는 서울시 4대 쪽방촌 중<br />
-          국내 최대 규모 쪽방촌인 <span style={{ color: "red" }}>동자동</span>의
-          폭염 불평등 실태를 조사하였다.
-        </p>
+        <div className="my-[10vmin]">
+          <p>
+            이에 본 프로젝트는 서울시 4대 쪽방촌 중<br />
+            국내 최대 규모 쪽방촌인{" "}
+            <span style={{ color: "#FE5657" /* red */ }}>동자동</span>의 폭염
+            불평등 실태를 조사하였다.
+          </p>
+        </div>
       ),
     },
     {
@@ -167,17 +170,19 @@ export default function Home() {
     },
     {
       content: (
-        <p>
+        <p className="my-[10vmin]">
           쪽방촌 일대의 폭염 불평등 점수는 평균{" "}
-          <span style={{ color: "red" }}>00점</span>으로 나타났다.
+          <span style={{ color: "#FE5657" /* red */ }}>59.7점</span>으로
+          나타났다.
         </p>
       ),
     },
     {
       content: (
-        <p>
+        <p className="my-[10vmin]">
           쪽방촌을 제외한 동자동 일대의 폭염 불평등 점수는 평균{" "}
-          <span style={{ color: "blue" }}>00점</span>으로 나타났다.
+          <span style={{ color: "#8BC1E8" /* blue */ }}>55.7점</span>으로
+          나타났다.
         </p>
       ),
     },
@@ -238,11 +243,15 @@ export default function Home() {
           <div
             key={index + 1}
             id={`page-${index + 1}`}
-            className={`h-screen flex flex-col items-center justify-center text-white page-${
-              index + 1
-            }`}
+            className={`h-screen flex flex-col items-center text-white ${
+              index + 1 === 5
+                ? "justify-start"
+                : index + 1 === 7 || index + 1 === 8
+                ? "justify-end"
+                : "justify-center"
+            } page-${index + 1}`}
           >
-            <div className="text-center font-Pretendard-ExBold text-[5vmin]">
+            <div className="text-center font-Pretendard-ExBold text-[4vmin]">
               {pageText.content}
             </div>
           </div>
