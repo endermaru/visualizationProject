@@ -1,36 +1,31 @@
 import { useEffect, useState, useRef } from "react";
 import MapB from "./components/map";
+import handler from "./api/hello";
 
 export default function Home() {
   const [pageHeight, setPageHeight] = useState(0);
-  const maxPage = 14; // 예: 페이지 수가 5개로 늘어났다고 가정
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setPageHeight(window.innerHeight);
-
-      const handleResize = () => {
-        setPageHeight(window.innerHeight);
-      };
-
-      window.addEventListener("resize", handleResize);
-      return () => {
-        window.removeEventListener("resize", handleResize);
-      };
-    }
-    setAction(0);
-  }, []);
-
-  const scrollLocation = {};
-  for (let i = 0; i <= maxPage; i++) {
-    scrollLocation[i] = i * pageHeight;
-  }
+  const pageHeightRef = useRef(pageHeight); // useRef로 최신 상태값을 추적
+  const maxPage = 14;
 
   //Map 컴포넌트 통신용
   const [action, setAction] = useState(0);
-  const [interactive, setInteractive] = useState(false);
-  const [loaded, setLoaded] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false);
+  const actionRef = useRef(action);
+  const [interactive, setInteractiveIndex] = useState(false);
+  const interRef = useRef(interactive);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const height = window.innerHeight;
+      setPageHeight(height);
+      pageHeightRef.current = height; // 최신 높이값을 ref에 저장
+      window.scrollTo({top:actionRef.current*pageHeightRef.current});
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
 
   // 기존 useEffect 내용 중 line-wrapper 관련 부분
   useEffect(() => {
@@ -55,48 +50,85 @@ export default function Home() {
         }
       });
     });
-  }, []); // 한 번만 실행되도록 빈 의존성 배열 사용
-  // 기존 useEffect 내용 중 wheel 이벤트 관리 부분
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      let timer;
+  }, []);
 
-      const handleWheel = (event) => {
-        event.preventDefault();
-        if (loaded && !interactive && !isScrolling) {
-          const direction = event.deltaY;
-          setIsScrolling(true);
-
-          setAction((prevAction) => {
-            const newAction =
-              direction > 0
-                ? Math.min(prevAction + 1, maxPage)
-                : Math.max(prevAction - 1, 0);
-            window.scrollTo({
-              top: scrollLocation[newAction],
-              behavior: "smooth",
-            });
-            return newAction;
+  const handleWheel = (event) => {
+    event.preventDefault(); 
+    if (typeof window !== "undefined"){
+      if (!interRef.current) {
+        window.removeEventListener("wheel", handleWheel); 
+        const direction = event.deltaY;
+        setAction((prevAction) => {
+          const newAction =
+            direction > 0
+              ? Math.min(prevAction + 1, maxPage)
+              : Math.max(prevAction - 1, 0);
+          actionRef.current=newAction;
+          window.scrollTo({
+            top: newAction*pageHeightRef.current,
+            behavior: "smooth",
           });
-
-          setTimeout(() => {
-            setIsScrolling(false);
-          }, 1000); // 현재는 1초로 설정되어 있지만 필요에 따라 조절할 수 있습니다.
-        }
-      };
-
-      window.addEventListener("wheel", handleWheel, { passive: false });
-      return () => {
-        window.removeEventListener("wheel", handleWheel);
-        if (timer) clearTimeout(timer);
-      };
+          return newAction;
+        });
+        setTimeout(() => {
+          window.addEventListener("wheel", handleWheel, { passive: false });
+        }, 1000);
+      }
     }
-  }, [action, loaded, interactive, isScrolling, pageHeight, scrollLocation]); // 필요한 의존성 배열 사용
+  }; 
+  const handleKeyDown = (event) => {
+    
+    let flag = (event.key==='ArrowUp' || event.key==='ArrowDown' || event.key==='ArrowLeft' || event.key==='ArrowRight')? true:false;
+    if (flag && typeof window !== "undefined"){
+      //event.preventDefault(); 
+      if (!interRef.current) {
+        window.removeEventListener("keydown", handleKeyDown);
+        const direction = (event.key==='ArrowUp'|| event.key==='ArrowLeft')? -1:1;
+        setAction((prevAction) => {
+          const newAction =
+            direction > 0
+              ? Math.min(prevAction + 1, maxPage)
+              : Math.max(prevAction - 1, 0);
+          actionRef.current=newAction;
+          window.scrollTo({
+            top: newAction*pageHeightRef.current,
+            behavior: "smooth",
+          });
+          return newAction;
+        });
+        setTimeout(() => {
+          window.addEventListener("keydown", handleKeyDown);
+        }, 1000);
+      }
+    }
+  }; 
+  
+  const disableWheel = (event) =>{
+    event.preventDefault();
+  } 
+  const disableKeyDown = (event) =>{
+    let flag = (event.key==='ArrowUp' || event.key==='ArrowDown' || event.key==='ArrowLeft' || event.key==='ArrowRight')? true:false;
+    if (flag) event.preventDefault();
+  }
 
-  const getInfo = (isInteractive, isLoaded) => {
-    setInteractive(isInteractive);
-    setLoaded(isLoaded);
-  };
+  useEffect(()=>{
+    //리셋
+    setAction(13);
+    actionRef.current=0;
+    window.scrollTo({top:0});
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("wheel", disableWheel, { passive: false });
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", disableKeyDown);
+
+    return () => {
+      window.removeEventListener("wheel",handleWheel); 
+      window.removeEventListener("wheel", disableWheel, { passive: false });
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", disableKeyDown);
+    };
+  },[]);
+
 
   const pageTexts = [
     {
@@ -118,8 +150,8 @@ export default function Home() {
             <span style={{ color: "#FE5657" /* red */ }}>30도</span> 가량
             높았다.
           </p>
-          <div class="flex justify-center my-[3vmin] w-[75%]">
-            <img src="/표면온도.png" class="w-full" />
+          <div className="flex justify-center my-[3vmin] w-[75%]">
+            <img src="/표면온도.png" className="w-full" />
           </div>
           <p className="font-Pretendard-Regular text-[3vmin]">
             이예린, [폭염격차]① 쪽방촌 표면 온도 ‘30도 더 뜨거웠다’,
@@ -195,21 +227,23 @@ export default function Home() {
         </p>
       ),
     },
-  ];
+  ]; 
 
   const getBackgroundStyle = (action) => {
-    console.log("action:", action);
     return action >= 0 && action <= 4
       ? { backgroundImage: "url('/background.png')" }
       : {};
   };
 
+
+
   return (
     <main
       className="font-Pretendard-Regular scroll-smooth"
       style={{ height: `${(maxPage + 1) * 100}vh` }}
+      id="mainPage"
     >
-      <MapB action={action} getInfo={getInfo} />
+      <MapB action={action} getInfo={(e) => {setInteractiveIndex(e);interRef.current=e}} />
 
       {/* 배경 이미지가 고정된 상태로 표시됨 */}
       {action<14 && <div className="relative z-10">
@@ -236,7 +270,7 @@ export default function Home() {
         {/* <div className="attach-image w-screen h-screen"></div> */}
         {/* 배경 이미지가 고정된 상태로 표시됨 */}
         <div
-          className="attach-image w-screen h-screen"
+          className="attach-image w-screen h-screen fade-out"
           style={getBackgroundStyle(action)}
         ></div>
         {pageTexts.slice(1).map((pageText, index) => (

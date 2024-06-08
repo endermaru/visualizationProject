@@ -150,6 +150,7 @@ const MapB =(props) => {
   const markers = useRef([]); //마커 관리
   const [pastAction, setAction]=useState(0);
   const [loaded, setLoaded] = useState(false);
+  const [showTable, setShowTable] = useState(false);
   
   //useEffect for mapbox
   useEffect(() => {
@@ -245,10 +246,16 @@ const MapB =(props) => {
   useEffect(() => {
     let timer;
     console.log("props.action:",props.action);
-    
 
+    let inter = interactive;
+    if (props.action<14){
+      setInteractive(false);
+      setTool(false);
+      setShowTable(false);
+      inter=false;
+    }
     //이동
-    if (loaded && !interactive) {
+    if (loaded && !inter) {
       if (props.action>=4) {
         map.current.flyTo({
           duration : 1000,
@@ -267,8 +274,6 @@ const MapB =(props) => {
           break;
         }
         case 13:{
-          setTool(false);
-          setInteractive(false);
           map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_case3', 'visibility', 'none');
@@ -386,7 +391,6 @@ const MapB =(props) => {
         }
         
       }
-      console.log("marker length:",markers.current.length);
     }
     setAction(props.action);
     return () => {
@@ -442,26 +446,32 @@ const MapB =(props) => {
         map.current['touchZoomRotate'].disable();
       }
     }
-    props.getInfo(interactive,loaded);
+    props.getInfo(interactive);
   },[interactive]);
+
+  useEffect(()=>{
+    setInteractive(false);
+    setTool(false);
+    setShowTable(false);
+  },[])
 
   return (
     <div className='fixed top-0 left-0 w-screen h-screen z-0'>
       
       <div className='z-0' ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
-      {tool && <div className="absolute flex flex-col z-10 top-4 right-4 px-1 rounded-md font-Pretendard-ExBold fade-in fade-out">
-        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
+      {tool && <div className="absolute h-2/5 flex flex-col z-10 top-4 right-4 px-1 rounded-md font-Pretendard-ExBold fade-in fade-out">
+        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>visibleToggle(e)}>
             <p className="text-xl">{!visible? "🗺️":"🔍"}</p>
             <p className="text-xs">{!visible? "다른건물":"쪽방촌만"}</p>
             <p className="text-xs">{!visible? "둘러보기":"살펴보기"}</p>
         </button>
-        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-bold text-stone-700 hover:text-blue-600`
+        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>setInteractive(!interactive)}>
             <p className="text-xs">상호작용</p>
-            <p className="text-lg">{interactive? "ON":"OFF"}</p>
+            <p className="text-lg">{!interactive? "ON":"OFF"}</p>
         </button>
-        <button className="rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white hover:bg-white font-bold text-stone-700 hover:text-blue-600" id="reset"
+        <button className="rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600" id="reset"
         onClick={()=>{
           removePopups();
           map.current.flyTo({
@@ -472,9 +482,29 @@ const MapB =(props) => {
             essential: true
           });
         }}>
-            <p className="text-xs">처음으로</p>
+            <p className="text-xs">처음위치로</p>
             <p className="text-2xl font-bold">↻</p>
         </button>
+        
+      </div>}
+      {tool &&
+        <img className="h-3/5 absolute bottom-24 right-6 z-10 fade-in fade-out rounded-md flex" src="legend.png"></img>
+      }
+      {tool &&
+        <button className="absolute bottom-5 right-5 z-10 fade-in fade-out rounded-full p-2 m-1 aspect-square 
+        border border-1 border-black bg-white flex flex-col place-items-center text-stone-700 hover:text-blue-600" 
+          onClick={()=>{
+            setShowTable(!showTable);
+            console.log("!");
+          }}
+        >
+          <p className='font-2xl font-bold'>?</p>
+          <p className='font-Pretendard-ExBold text-xs'>점수계산</p>
+        </button>
+      }
+      {showTable && 
+      <div className="absolute z-10 flex items-center bg-white w-1/2 bottom-20 right-20 fade-in border border-1 rounded-md" onClick={()=>setShowTable(false)}>
+        <img src="점수환산표.jpg"/>
       </div>}
     </div>
   );
