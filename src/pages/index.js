@@ -197,23 +197,48 @@ export default function Home() {
     // page 9
     {
       content: (
-        <div className="flex flex-row justify-between items-start w-screen h-screen">
-          <div className="flex flex-col space-y-4 w-1/3 h-full">
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[10vmin]">
+          <div className="flex flex-col space-y-4 w-[32vmax] h-full p-[3vmin] text-[3vmin]">
             <p>서울특별시 용산구 동자동 7-10</p>
-            <img src="/case1-1.png" alt="case 1 img 1" className="w-3/5" />
+            <div className="flex justify-center my-[3vmin]">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-2/3" />
+            </div>
             <p>폭염 불평등 점수: 73.25</p>
-            <img src="/score2.png" alt="case 1 img 2" className="w-3/5" />
-            <div className="bg-gray-200 p-4">사용승인일</div>
-            <div className="bg-gray-200 p-4">공시지가: 1억 1900만 원</div>
+            <div className="flex justify-center my-[3vmin]">
+              <img src="/score2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <table className="font-Pretendard-Regular text-left">
+              <tr>
+                <td>사용승인일</td>
+                <td>1969.11.26.</td>
+              </tr>
+              <tr>
+                <td>단열등급</td>
+                <td>0등급</td>
+              </tr>
+              <tr>
+                <td>면적당 전력사용량</td>
+                <td>3.52</td>
+              </tr>
+              <tr>
+                <th>공시지가</th>
+                <th>1억 1900만 원</th>
+              </tr>
+            </table>
           </div>
-          <div className="flex justify-center items-center w-1/3 text-[4vmin]">
+          <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
             CASE 1. 강남 건물주
           </div>
-          <div className="flex flex-col space-y-4 w-1/3 h-full">
+          <div className="flex flex-col space-y-4 w-[32vmax] h-full py-[4vmin]">
             <p>서울특별시 용산구 동자동 7-10</p>
-            <img src="/case1-2.png" alt="case 1 img 1" className="w-3/5" />
+            <div className="flex justify-center my-[3vmin]">
+              <img src="/case1-2.png" alt="case 1 img 1" className="w-2/3" />
+            </div>
             <p>폭염 불평등 점수: 73.25</p>
-            <img src="/score2.png" alt="case 1 img 2" className="w-3/5" />
+            <div className="flex justify-center my-[3vmin]">
+              <img src="/score2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+
             <div className="bg-gray-200 p-4">사용승인일</div>
             <div className="bg-gray-200 p-4">공시지가: 1억 1900만 원</div>
           </div>
