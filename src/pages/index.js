@@ -194,6 +194,32 @@ export default function Home() {
         </p>
       ),
     },
+    // page 9
+    {
+      content: (
+        <div className="flex flex-row justify-between items-start w-screen h-screen">
+          <div className="flex flex-col space-y-4 w-1/3 h-full">
+            <p>서울특별시 용산구 동자동 7-10</p>
+            <img src="/case1-1.png" alt="case 1 img 1" className="w-3/5" />
+            <p>폭염 불평등 점수: 73.25</p>
+            <img src="/score2.png" alt="case 1 img 2" className="w-3/5" />
+            <div className="bg-gray-200 p-4">사용승인일</div>
+            <div className="bg-gray-200 p-4">공시지가: 1억 1900만 원</div>
+          </div>
+          <div className="flex justify-center items-center w-1/3 text-[4vmin]">
+            CASE 1. 강남 건물주
+          </div>
+          <div className="flex flex-col space-y-4 w-1/3 h-full">
+            <p>서울특별시 용산구 동자동 7-10</p>
+            <img src="/case1-2.png" alt="case 1 img 1" className="w-3/5" />
+            <p>폭염 불평등 점수: 73.25</p>
+            <img src="/score2.png" alt="case 1 img 2" className="w-3/5" />
+            <div className="bg-gray-200 p-4">사용승인일</div>
+            <div className="bg-gray-200 p-4">공시지가: 1억 1900만 원</div>
+          </div>
+        </div>
+      ),
+    },
   ];
 
   const getBackgroundStyle = (action) => {
