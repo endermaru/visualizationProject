@@ -18,6 +18,7 @@ export default function Home() {
         window.removeEventListener("resize", handleResize);
       };
     }
+    setAction(0);
   }, []);
 
   const scrollLocation = {};
@@ -193,7 +194,7 @@ export default function Home() {
 
   const getBackgroundStyle = (action) => {
     console.log("action:", action);
-    return action >= 1 && action <= 4
+    return action >= 0 && action <= 4
       ? { backgroundImage: "url('/background.png')" }
       : {};
   };
@@ -206,7 +207,7 @@ export default function Home() {
       <MapB action={action} getInfo={getInfo} />
 
       {/* 배경 이미지가 고정된 상태로 표시됨 */}
-      <div className="relative z-10">
+      {action<14 && <div className="relative z-10">
         {/* 커버 */}
         <div
           id="page-0"
@@ -246,7 +247,7 @@ export default function Home() {
             </div>
           </div>
         ))}
-      </div>
+      </div>}
     </main>
   );
 }
