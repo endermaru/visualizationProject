@@ -243,39 +243,43 @@ export default function Home() {
       content: (
         <div className="flex flex-row justify-between items-start w-screen h-screen px-[10vmin]">
           <div className="flex flex-col justify-between w-[32vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
-            <div className="h-[6vmin] flex flex-col justify-center">
-              <div className="text-[2.5vmin]">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.5vmin] font-Pretendard-Regular">
                 서울특별시 용산구 동자동 7-10
               </div>
             </div>
 
-            <div className="flex justify-center">
-              <img src="/case1-1.png" alt="case 1 img 1" className="w-2/3" />
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
             </div>
             <p>
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}>73.25</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score2.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
-                <tr>
-                  <td className="pt-[2vmin]">사용승인일</td>
-                  <td className="pt-[2vmin]">1969.11.26.</td>
-                </tr>
-                <tr>
-                  <td>단열등급</td>
-                  <td>0등급</td>
-                </tr>
-                <tr>
-                  <td className="pb-[2vmin]">면적당 전력사용량</td>
-                  <td className="pb-[2vmin]">3.52</td>
-                </tr>
-                <tr>
-                  <th>공시지가</th>
-                  <th>1억 1900만 원</th>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1969.11.26.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>0등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      3.52 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>1억 1900만 원</th>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -283,40 +287,44 @@ export default function Home() {
             CASE 1. 강남 건물주
           </div>
           <div className="flex flex-col justify-between w-[32vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
-            <div className="h-[6vmin] flex flex-col justify-center">
-              <div className="text-[2.5vmin]">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.5vmin] font-Pretendard-Regular">
                 서울특별시 강남구 대치동 65
                 <br />
                 대치 쌍용2차 9동 1302호
               </div>
             </div>
-            <div className="flex justify-center">
-              <img src="/case1-2.png" alt="case 1 img 2" className="w-2/3" />
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
             </div>
             <p>
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 58.34</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score2.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
-                <tr>
-                  <td className="pt-[2vmin]">사용승인일</td>
-                  <td className="pt-[2vmin]">1983.11.30.</td>
-                </tr>
-                <tr>
-                  <td>단열등급</td>
-                  <td>1등급</td>
-                </tr>
-                <tr>
-                  <td className="pb-[2vmin]">면적당 전력사용량</td>
-                  <td className="pb-[2vmin]">4.59</td>
-                </tr>
-                <tr>
-                  <th>공시지가</th>
-                  <th>15억 7300만 원</th>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1983.11.30.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>1등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      4.59 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>15억 7300만 원</th>
+                  </tr>
+                </tbody>
               </table>
             </div>
           </div>
