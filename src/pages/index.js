@@ -238,7 +238,7 @@ export default function Home() {
         </p>
       ),
     },
-    // page 9
+    // case 1
     {
       content: (
         <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
@@ -331,7 +331,7 @@ export default function Home() {
         </div>
       ),
     },
-    // page 10
+    // case 2
     {
       content: (
         <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
@@ -424,7 +424,7 @@ export default function Home() {
         </div>
       ),
     },
-    // page 11
+    // case 3
     {
       content: (
         <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
@@ -517,6 +517,50 @@ export default function Home() {
         </div>
       ),
     },
+    // credit
+    {
+      content: (
+        <div class="flex flex-col justify-between w-screen h-screen px-[10%] py-[5%]">
+          <p class="text-left text-[6vmin]">관련 기사 전체 보기</p>
+          <div class="flex justify-center px-[8vmin]">
+            <a
+              href="https://interactive.hankookilbo.com/v/jjogbang/"
+              class="flex flex-col w-1/5 items-center pb-[1vmin] bg-white shadow-lg mx-[5%]"
+            >
+              <img src="/credit1.png" alt="이미지 1" class="mb-[1vmin]" />
+              <p class="font-Pretendard-Regular text-[2vmin] text-black text-center">
+                [한국일보] <br />
+                도시 빈자들의 최후의 주거지 <br />- 지옥고 아래 쪽방
+              </p>
+            </a>
+            <a
+              href="https://news.kbs.co.kr/news/pc/view/view.do?ncd=5516283"
+              class="flex flex-col w-1/5 items-center pb-[1vmin] bg-white shadow-lg mx-[5%]"
+            >
+              <img src="/credit2.png" alt="이미지 2" class="mb-[1vmin]" />
+              <p class="font-Pretendard-Regular text-[2vmin] text-black text-center">
+                [KBS] <br />
+                [폭염격차]① 쪽방촌 표면 온도 <br />
+                ‘30도 더 뜨거웠다’
+              </p>
+            </a>
+          </div>
+
+          <div class="text-center">
+            <p class="font-Pretendard-Regular text-[3vmin]">
+              서울대학교 연합전공 정보문화학 <br /> 24-1 비주얼라이제이션 B조{" "}
+              <br />
+              김민서 김재연 이서현 임광섭 정현아
+            </p>
+          </div>
+          <div class="text-center">
+            <p class="text-[4.5vmin]">
+              아래로 스크롤하면 시각화 작업물을 자유롭게 둘러볼 수 있습니다.
+            </p>
+          </div>
+        </div>
+      ),
+    },
   ];
 
   const getBackgroundStyle = (action) => {
@@ -581,7 +625,7 @@ export default function Home() {
                   ? "justify-end"
                   : "justify-center"
               }
-              ${index + 1 == 9 ? "bg-neutral-600/50" : ""}
+              ${index + 1 == 9 || index + 1 == 13 ? "bg-neutral-600/50" : ""}
               page-${index + 1}`}
             >
               <div className="text-center font-Pretendard-ExBold text-[4vmin]">
