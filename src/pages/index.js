@@ -18,7 +18,7 @@ export default function Home() {
       const height = window.innerHeight;
       setPageHeight(height);
       pageHeightRef.current = height; // 최신 높이값을 ref에 저장
-      window.scrollTo({top:actionRef.current*pageHeightRef.current});
+      window.scrollTo({ top: actionRef.current * pageHeightRef.current });
     };
 
     handleResize();
@@ -26,8 +26,7 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
-  // 기존 useEffect 내용 중 line-wrapper 관련 부분
+  // line-wrapper 관련 부분
   useEffect(() => {
     document.querySelectorAll("p").forEach((p) => {
       if (p.querySelector(".line-wrapper")) {
@@ -52,20 +51,21 @@ export default function Home() {
     });
   }, []);
 
+  // 스크롤 + 키보드
   const handleWheel = (event) => {
-    event.preventDefault(); 
-    if (typeof window !== "undefined"){
+    event.preventDefault();
+    if (typeof window !== "undefined") {
       if (!interRef.current) {
-        window.removeEventListener("wheel", handleWheel); 
+        window.removeEventListener("wheel", handleWheel);
         const direction = event.deltaY;
         setAction((prevAction) => {
           const newAction =
             direction > 0
               ? Math.min(prevAction + 1, maxPage)
               : Math.max(prevAction - 1, 0);
-          actionRef.current=newAction;
+          actionRef.current = newAction;
           window.scrollTo({
-            top: newAction*pageHeightRef.current,
+            top: newAction * pageHeightRef.current,
             behavior: "smooth",
           });
           return newAction;
@@ -75,23 +75,29 @@ export default function Home() {
         }, 1000);
       }
     }
-  }; 
+  };
   const handleKeyDown = (event) => {
-    
-    let flag = (event.key==='ArrowUp' || event.key==='ArrowDown' || event.key==='ArrowLeft' || event.key==='ArrowRight')? true:false;
-    if (flag && typeof window !== "undefined"){
-      //event.preventDefault(); 
+    let flag =
+      event.key === "ArrowUp" ||
+      event.key === "ArrowDown" ||
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowRight"
+        ? true
+        : false;
+    if (flag && typeof window !== "undefined") {
+      //event.preventDefault();
       if (!interRef.current) {
         window.removeEventListener("keydown", handleKeyDown);
-        const direction = (event.key==='ArrowUp'|| event.key==='ArrowLeft')? -1:1;
+        const direction =
+          event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1;
         setAction((prevAction) => {
           const newAction =
             direction > 0
               ? Math.min(prevAction + 1, maxPage)
               : Math.max(prevAction - 1, 0);
-          actionRef.current=newAction;
+          actionRef.current = newAction;
           window.scrollTo({
-            top: newAction*pageHeightRef.current,
+            top: newAction * pageHeightRef.current,
             behavior: "smooth",
           });
           return newAction;
@@ -101,34 +107,39 @@ export default function Home() {
         }, 1000);
       }
     }
-  }; 
-  
-  const disableWheel = (event) =>{
-    event.preventDefault();
-  } 
-  const disableKeyDown = (event) =>{
-    let flag = (event.key==='ArrowUp' || event.key==='ArrowDown' || event.key==='ArrowLeft' || event.key==='ArrowRight')? true:false;
-    if (flag) event.preventDefault();
-  }
+  };
 
-  useEffect(()=>{
+  // disable
+  const disableWheel = (event) => {
+    event.preventDefault();
+  };
+  const disableKeyDown = (event) => {
+    let flag =
+      event.key === "ArrowUp" ||
+      event.key === "ArrowDown" ||
+      event.key === "ArrowLeft" ||
+      event.key === "ArrowRight"
+        ? true
+        : false;
+    if (flag) event.preventDefault();
+  };
+
+  useEffect(() => {
     //리셋
-    setAction(13);
-    actionRef.current=0;
-    window.scrollTo({top:0});
+    actionRef.current = 0;
+    window.scrollTo({ top: 0 });
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("wheel", disableWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keydown", disableKeyDown);
 
     return () => {
-      window.removeEventListener("wheel",handleWheel); 
+      window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("wheel", disableWheel, { passive: false });
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keydown", disableKeyDown);
     };
-  },[]);
-
+  }, []);
 
   const pageTexts = [
     {
@@ -227,7 +238,330 @@ export default function Home() {
         </p>
       ),
     },
-  ]; 
+    // case 1
+    {
+      content: (
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
+          <div className="flex flex-col justify-between w-[30vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 용산구 동자동 7-10
+              </div>
+            </div>
+
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}>73.25</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1969.11.26.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>0등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      3.52 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>1억 1900만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
+            CASE 1. 강남 건물주
+          </div>
+          <div className="flex flex-col justify-between w-[30vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 강남구 대치동 65
+                <br />
+                대치 쌍용2차 9동 1302호
+              </div>
+            </div>
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 58.34</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1983.11.30.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>1등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      4.59 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>15억 7300만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    // case 2
+    {
+      content: (
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
+          <div className="flex flex-col justify-between w-[30vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 용산구 동자동 7-12
+              </div>
+            </div>
+
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}>73.25</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1969.11.26.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>0등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      3.52 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>1억 7100만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
+            CASE 2. 지방 큰손
+          </div>
+          <div className="flex flex-col justify-between w-[30vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                경상남도 창원시 성산구 상남동 44-1
+                <br />
+                대동아파트 122동 702호
+              </div>
+            </div>
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 51.44</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1994.12.24.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>1등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      5.56 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>3억 4100만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    // case 3
+    {
+      content: (
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
+          <div className="flex flex-col justify-between w-[30vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 용산구 동자동 10-6
+              </div>
+            </div>
+
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}>75.99</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1956.05.26.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>0등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      4.00 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>-</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
+            CASE 3. 고급 주거 단지 주민
+          </div>
+          <div className="flex flex-col justify-between w-[30vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 송파구 잠실동 19
+                <br />
+                잠실엘스 166동 904호
+              </div>
+            </div>
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 47.13</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">2008.09.30.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>2등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      3.45 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>15억 8700만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    // credit
+    {
+      content: (
+        <div class="flex flex-col justify-between w-screen h-screen px-[10%] py-[5%]">
+          <p class="text-left text-[6vmin]">관련 기사 전체 보기</p>
+          <div class="flex justify-center px-[8vmin]">
+            <a
+              href="https://interactive.hankookilbo.com/v/jjogbang/"
+              class="flex flex-col w-1/5 items-center pb-[1vmin] bg-white shadow-lg mx-[5%]"
+            >
+              <img src="/credit1.png" alt="이미지 1" class="mb-[1vmin]" />
+              <p class="font-Pretendard-Regular text-[2vmin] text-black text-center">
+                [한국일보] <br />
+                도시 빈자들의 최후의 주거지 <br />- 지옥고 아래 쪽방
+              </p>
+            </a>
+            <a
+              href="https://news.kbs.co.kr/news/pc/view/view.do?ncd=5516283"
+              class="flex flex-col w-1/5 items-center pb-[1vmin] bg-white shadow-lg mx-[5%]"
+            >
+              <img src="/credit2.png" alt="이미지 2" class="mb-[1vmin]" />
+              <p class="font-Pretendard-Regular text-[2vmin] text-black text-center">
+                [KBS] <br />
+                [폭염격차]① 쪽방촌 표면 온도 <br />
+                ‘30도 더 뜨거웠다’
+              </p>
+            </a>
+          </div>
+
+          <div class="text-center">
+            <p class="font-Pretendard-Regular text-[3vmin]">
+              서울대학교 연합전공 정보문화학 <br /> 24-1 비주얼라이제이션 B조{" "}
+              <br />
+              김민서 김재연 이서현 임광섭 정현아
+            </p>
+          </div>
+          <div class="text-center">
+            <p class="text-[4.5vmin]">
+              아래로 스크롤하면 시각화 작업물을 자유롭게 둘러볼 수 있습니다.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+  ];
 
   const getBackgroundStyle = (action) => {
     return action >= 0 && action <= 4
@@ -235,62 +569,72 @@ export default function Home() {
       : {};
   };
 
-
-
   return (
     <main
       className="font-Pretendard-Regular scroll-smooth"
       style={{ height: `${(maxPage + 1) * 100}vh` }}
       id="mainPage"
     >
-      <MapB action={action} getInfo={(e) => {setInteractiveIndex(e);interRef.current=e}} />
+      <MapB
+        action={action}
+        getInfo={(e) => {
+          setInteractiveIndex(e);
+          interRef.current = e;
+        }}
+      />
 
       {/* 배경 이미지가 고정된 상태로 표시됨 */}
-      {action<14 && <div className="relative z-10">
-        {/* 커버 */}
-        <div
-          id="page-0"
-          className="cover w-screen h-screen faded-bottom overflow-hidden"
-        >
-          <div className="w-screen h-screen">
-            <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
-              <p className="mt-[20vh] text-[6vmin]">{pageTexts[0].subtitle}</p>
-              <p className="mt-[5vh] text-[8vmin] leading-tight font-Pretendard-ExBold">
-                {pageTexts[0].title1}
-              </p>
-              <p className="text-[8vmin] leading-tight font-Pretendard-ExBold">
-                {pageTexts[0].title2}
-              </p>
-            </div>
-            <p className="absolute text-white bottom-[20vh] text-left text-[2.7vmin] md:ml-[10%] mr-[10%] ml-[5%]">
-              {pageTexts[0].description}
-            </p>
-          </div>
-        </div>
-        {/* <div className="attach-image w-screen h-screen"></div> */}
-        {/* 배경 이미지가 고정된 상태로 표시됨 */}
-        <div
-          className="attach-image w-screen h-screen fade-out"
-          style={getBackgroundStyle(action)}
-        ></div>
-        {pageTexts.slice(1).map((pageText, index) => (
+      {action < 14 && (
+        <div className="relative z-10">
+          {/* 커버 */}
           <div
-            key={index + 1}
-            id={`page-${index + 1}`}
-            className={`h-screen flex flex-col items-center text-white ${
-              index + 1 === 5
-                ? "justify-start"
-                : index + 1 === 7 || index + 1 === 8
-                ? "justify-end"
-                : "justify-center"
-            } page-${index + 1}`}
+            id="page-0"
+            className="cover w-screen h-screen faded-bottom overflow-hidden"
           >
-            <div className="text-center font-Pretendard-ExBold text-[4vmin]">
-              {pageText.content}
+            <div className="w-screen h-screen">
+              <div className="absolute text-white top-0 left-0 flex flex-col text-left md:ml-[10%] ml-[5%]">
+                <p className="mt-[20vh] text-[6vmin]">
+                  {pageTexts[0].subtitle}
+                </p>
+                <p className="mt-[5vh] text-[8vmin] leading-tight font-Pretendard-ExBold">
+                  {pageTexts[0].title1}
+                </p>
+                <p className="text-[8vmin] leading-tight font-Pretendard-ExBold">
+                  {pageTexts[0].title2}
+                </p>
+              </div>
+              <p className="absolute text-white bottom-[20vh] text-left text-[2.7vmin] md:ml-[10%] mr-[10%] ml-[5%]">
+                {pageTexts[0].description}
+              </p>
             </div>
           </div>
-        ))}
-      </div>}
+          {/* <div className="attach-image w-screen h-screen"></div> */}
+          {/* 배경 이미지가 고정된 상태로 표시됨 */}
+          <div
+            className="attach-image w-screen h-screen fade-out"
+            style={getBackgroundStyle(action)}
+          ></div>
+          {pageTexts.slice(1).map((pageText, index) => (
+            <div
+              key={index + 1}
+              id={`page-${index + 1}`}
+              className={`h-screen flex flex-col items-center text-white ${
+                index + 1 === 5
+                  ? "justify-start"
+                  : index + 1 === 7 || index + 1 === 8
+                  ? "justify-end"
+                  : "justify-center"
+              }
+              ${index + 1 == 9 || index + 1 == 13 ? "bg-neutral-600/50" : ""}
+              page-${index + 1}`}
+            >
+              <div className="text-center font-Pretendard-ExBold text-[4vmin]">
+                {pageText.content}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </main>
   );
 }
