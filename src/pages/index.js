@@ -241,10 +241,10 @@ export default function Home() {
     // page 9
     {
       content: (
-        <div className="flex flex-row justify-between items-start w-screen h-screen px-[10vmin]">
-          <div className="flex flex-col justify-between w-[32vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
+          <div className="flex flex-col justify-between w-[30vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
             <div className="h-[8vmin] flex flex-col justify-center">
-              <div className="text-[2.5vmin] font-Pretendard-Regular">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
                 서울특별시 용산구 동자동 7-10
               </div>
             </div>
@@ -286,9 +286,9 @@ export default function Home() {
           <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
             CASE 1. 강남 건물주
           </div>
-          <div className="flex flex-col justify-between w-[32vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+          <div className="flex flex-col justify-between w-[30vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
             <div className="h-[8vmin] flex flex-col justify-center">
-              <div className="text-[2.5vmin] font-Pretendard-Regular">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
                 서울특별시 강남구 대치동 65
                 <br />
                 대치 쌍용2차 9동 1302호
@@ -323,6 +323,192 @@ export default function Home() {
                   <tr>
                     <th>공시지가</th>
                     <th>15억 7300만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    // page 10
+    {
+      content: (
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
+          <div className="flex flex-col justify-between w-[30vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 용산구 동자동 7-12
+              </div>
+            </div>
+
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}>73.25</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1969.11.26.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>0등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      3.52 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>1억 7100만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
+            CASE 2. 지방 큰손
+          </div>
+          <div className="flex flex-col justify-between w-[30vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                경상남도 창원시 성산구 상남동 44-1
+                <br />
+                대동아파트 122동 702호
+              </div>
+            </div>
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 51.44</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1994.12.24.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>1등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      5.56 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>3억 4100만 원</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      ),
+    },
+    // page 11
+    {
+      content: (
+        <div className="flex flex-row justify-between items-start w-screen h-screen px-[9vmin]">
+          <div className="flex flex-col justify-between w-[30vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 용산구 동자동 10-6
+              </div>
+            </div>
+
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}>75.99</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">1956.05.26.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>0등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      4.00 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>-</th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
+            CASE 3. 고급 주거 단지 주민
+          </div>
+          <div className="flex flex-col justify-between w-[30vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[8vmin] flex flex-col justify-center">
+              <div className="text-[2.8vmin] font-Pretendard-Regular">
+                서울특별시 송파구 잠실동 19
+                <br />
+                잠실엘스 166동 904호
+              </div>
+            </div>
+            <div className="flex justify-center h-1/4">
+              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+            </div>
+            <p>
+              폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 47.13</span>
+            </p>
+            <div className="flex justify-center">
+              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+            </div>
+            <div className="flex justify-center items">
+              <table className="font-Pretendard-Regular text-left w-full">
+                <tbody>
+                  <tr>
+                    <td className="pt-[2vmin]">사용승인일</td>
+                    <td className="pt-[2vmin]">2008.09.30.</td>
+                  </tr>
+                  <tr>
+                    <td>단열등급</td>
+                    <td>2등급</td>
+                  </tr>
+                  <tr>
+                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">
+                      3.45 kWh/m<sup>2</sup>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>공시지가</th>
+                    <th>15억 8700만 원</th>
                   </tr>
                 </tbody>
               </table>
@@ -394,7 +580,9 @@ export default function Home() {
                   : index + 1 === 7 || index + 1 === 8
                   ? "justify-end"
                   : "justify-center"
-              } page-${index + 1}`}
+              }
+              ${index + 1 == 9 ? "bg-neutral-600/50" : ""}
+              page-${index + 1}`}
             >
               <div className="text-center font-Pretendard-ExBold text-[4vmin]">
                 {pageText.content}
