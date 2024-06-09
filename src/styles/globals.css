@@ -283,3 +283,27 @@ p {
 .animate-grow {
   animation: grow 60s forwards; /* 3 seconds duration and forwards to retain the final state */
 }
+
+table {
+  border-bottom: 2px solid #ffffff;
+  border-top: 2px solid #ffffff;
+}
+
+tr {
+  text-align: left;
+  vertical-align: middle; /* 가운데 */
+}
+
+th {
+  height: 8vmin;
+  vertical-align: middle; /* 가운데 */
+  border-top: 1px solid #ffffff;
+  padding-left: 1vmin;
+}
+
+td {
+  height: 7vmin;
+  text-align: left;
+  vertical-align: middle; /* 가운데 */
+  padding-left: 1vmin;
+}
