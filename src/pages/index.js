@@ -26,7 +26,7 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // 기존 useEffect 내용 중 line-wrapper 관련 부분
+  // line-wrapper 관련 부분
   useEffect(() => {
     document.querySelectorAll("p").forEach((p) => {
       if (p.querySelector(".line-wrapper")) {
@@ -51,6 +51,7 @@ export default function Home() {
     });
   }, []);
 
+  // 스크롤 + 키보드
   const handleWheel = (event) => {
     event.preventDefault();
     if (typeof window !== "undefined") {
@@ -108,6 +109,7 @@ export default function Home() {
     }
   };
 
+  // disable
   const disableWheel = (event) => {
     event.preventDefault();
   };
@@ -124,7 +126,6 @@ export default function Home() {
 
   useEffect(() => {
     //리셋
-    setAction(13);
     actionRef.current = 0;
     window.scrollTo({ top: 0 });
     window.addEventListener("wheel", handleWheel, { passive: false });
@@ -241,8 +242,13 @@ export default function Home() {
     {
       content: (
         <div className="flex flex-row justify-between items-start w-screen h-screen px-[10vmin]">
-          <div className="flex flex-col justify-between w-[32vmax] h-full p-[5vmin] text-[3vmin]">
-            <p className="h-[6vmin]">서울특별시 용산구 동자동 7-10</p>
+          <div className="flex flex-col justify-between w-[32vmax] h-full p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[6vmin] flex flex-col justify-center">
+              <div className="text-[2.5vmin]">
+                서울특별시 용산구 동자동 7-10
+              </div>
+            </div>
+
             <div className="flex justify-center">
               <img src="/case1-1.png" alt="case 1 img 1" className="w-2/3" />
             </div>
@@ -276,12 +282,14 @@ export default function Home() {
           <div className="flex justify-center items-center text-[4vmin] my-[6vmin]">
             CASE 1. 강남 건물주
           </div>
-          <div className="flex flex-col justify-between w-[32vmax] h-screen p-[5vmin] text-[3vmin]">
-            <p className="flex flex-col justify-center text-[2.5vmin]">
-              서울특별시 강남구 대치동 65
-              <br />
-              대치 쌍용2차 9동 1302호
-            </p>
+          <div className="flex flex-col justify-between w-[32vmax] h-screen p-[5vmin] text-[3vmin] bg-neutral-600/50">
+            <div className="h-[6vmin] flex flex-col justify-center">
+              <div className="text-[2.5vmin]">
+                서울특별시 강남구 대치동 65
+                <br />
+                대치 쌍용2차 9동 1302호
+              </div>
+            </div>
             <div className="flex justify-center">
               <img src="/case1-2.png" alt="case 1 img 2" className="w-2/3" />
             </div>
