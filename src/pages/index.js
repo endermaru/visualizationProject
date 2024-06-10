@@ -134,6 +134,7 @@ export default function Home() {
   useEffect(() => {
     //리셋
     actionRef.current = 0;
+    setAction(13);
     window.scrollTo({ top: 0 });
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("wheel", disableWheel, { passive: false });
@@ -218,7 +219,7 @@ export default function Home() {
             onClick={() => setShowTable(false)}
             src="점수환산표.jpg"
             alt="점수환산표"
-            style={{ top: '0', bottom: '0', left: '0', right: '0', transform: 'translateY(-15%)'}}
+            style={{ top: '0', bottom: '0', left: '0', right: '0', transform: 'translateY(-18%)'}}
           />
         )}
 
@@ -614,11 +615,11 @@ export default function Home() {
           interRef.current = e;
         }}
       />
-      {action==14 && <button className="fixed flex bottom-5 left-0 fade-in fade-out rounded px-2 py-1 m-3 aspect-square 
-            border border-1 border-stone-700 bg-white flex flex-col place-items-center text-stone-700 hover:text-blue-600" 
+      {action==14 && <button className="fixed flex items-center justify-center bottom-5 left-0 fade-in fade-out rounded-full w-[7vmin] h-[7vmin] aspect-square m-3 aspect-square 
+            border border-1 border-stone-700 bg-white text-stone-700 hover:text-blue-600" 
           onClick={()=>{setAction(0);window.scrollTo({top:0});}}
           >
-            <p className='font-xl font-bold'>웹페이지<br/>처음부터<br/>다시보기</p>
+            <p className='text-[1.3vmin] font-Pretendard-ExBold'>웹페이지<br/>처음부터<br/>다시보기</p>
 
       </button>}
 

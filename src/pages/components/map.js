@@ -191,7 +191,7 @@ const MapB =(props) => {
         </div>
         <hr style="border-color: white;"> 
         <div style="color:white;font-weight: bold;font-size:17px;margin-top:7px">
-          폭염 불평등 지수: ${Math.round(e.features[0].properties.score*10)/10}점
+          폭염 불평등 점수: ${Math.round(e.features[0].properties.score*10)/10}점
         </div>`)
         .addTo(map.current);
     });
@@ -215,7 +215,7 @@ const MapB =(props) => {
           </div>
           <hr style="border-color: white;"> 
           <div style="color:white;font-weight: bold;font-size:17px;margin-top:7px">
-            폭염 불평등 지수: ${Math.round(e.features[0].properties.score*10)/10}점
+            폭염 불평등 점수: ${Math.round(e.features[0].properties.score*10)/10}점
           </div>`)
         .addTo(map.current);
     });
@@ -459,19 +459,19 @@ const MapB =(props) => {
     <div className='fixed top-0 left-0 w-screen h-screen z-0'>
       
       <div className='z-0' ref={mapContainer} style={{ width: '100vw', height: '100vh' }} />
-      {tool && <div className="absolute h-2/5 flex flex-col z-10 top-4 right-4 px-1 rounded-md font-Pretendard-ExBold fade-in fade-out">
-        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600`
+      {tool && <div className="absolute w-[7.5vmin] flex flex-col z-10 top-4 right-2 px-1 items-center rounded-md font-Pretendard-ExBold fade-in fade-out">
+        <button className={`rounded-md w-[7vmin] h-[7vmin] mt-2 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>visibleToggle(e)}>
-            <p className="text-xl">{!visible? "🗺️":"🔍"}</p>
-            <p className="text-xs">{!visible? "다른건물":"쪽방촌만"}</p>
-            <p className="text-xs">{!visible? "둘러보기":"살펴보기"}</p>
+            <p className="text-[2vmin]">{!visible? "🗺️":"🔍"}</p>
+            <p className="text-[1.3vmin]">{!visible? "다른건물":"쪽방촌만"}</p>
+            <p className="text-[1.3vmin]">{!visible? "둘러보기":"살펴보기"}</p>
         </button>
-        <button className={`rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600`
+        <button className={`rounded-md w-[7vmin] h-[7vmin] mt-2 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600`
         } onClick={(e)=>setInteractive(!interactive)}>
-            <p className="text-xs">상호작용</p>
-            <p className="text-lg">{!interactive? "ON":"OFF"}</p>
+            <p className="text-[1.3vmin]">상호작용</p>
+            <p className="text-[2vmin]">{!interactive? "ON":"OFF"}</p>
         </button>
-        <button className="rounded-md p-1 m-1 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600" id="reset"
+        <button className="rounded-md w-[7vmin] h-[7vmin] mt-2 aspect-square border border-1 border-black bg-white font-Pretendard-ExBold text-stone-700 hover:text-blue-600" id="reset"
         onClick={()=>{
           removePopups();
           map.current.flyTo({
@@ -482,29 +482,29 @@ const MapB =(props) => {
             essential: true
           });
         }}>
-            <p className="text-xs">처음위치로</p>
-            <p className="text-2xl font-bold">↻</p>
+            <p className="text-[1.3vmin]">처음위치로</p>
+            <p className="text-[2vmin] font-bold">↻</p>
         </button>
-        
+        <img className="w-[7.5vmin] ml-[1vmin] mt-[2vmin] mt-4 mr-2 z-10 fade-in fade-out rounded-md flex" src="legend.png"></img>
       </div>}
+      
       {tool &&
-        <img className="h-3/5 absolute bottom-24 right-6 z-10 fade-in fade-out rounded-md flex" src="legend.png"></img>
-      }
-      {tool &&
-        <button className="absolute bottom-5 right-5 z-10 fade-in fade-out rounded-full p-2 m-1 aspect-square 
+        <button className="absolute w-[7.5vmin] h-[7.5vmin] bottom-5 right-2 z-10 fade-in fade-out rounded-full p-2 m-1 aspect-square 
         border border-1 border-black bg-white flex flex-col place-items-center text-stone-700 hover:text-blue-600" 
           onClick={()=>{
             setShowTable(!showTable);
           }}
         >
-          <p className='font-2xl font-bold'>?</p>
-          <p className='font-Pretendard-ExBold text-xs'>점수계산</p>
+          <p className='text-[2vmin] font-bold'>?</p>
+          <p className='font-Pretendard-ExBold text-[1.3vmin]'>점수계산</p>
         </button>
       }
       {showTable && 
-      <div className="absolute z-10 flex items-center bg-white w-1/2 bottom-20 right-20 fade-in border border-1 rounded-md" onClick={()=>setShowTable(false)}>
+      <div className="absolute z-10 flex items-center bg-white w-2/5 bottom-20 right-24 fade-in border border-1 rounded-md" onClick={()=>setShowTable(false)}>
         <img src="점수환산표.jpg"/>
       </div>}
+      {tool && 
+      <p className='absolute z-10 bottom-5 left-1/2 transform -translate-x-1/2 text-white text-[2vmin] fade-in'>건물을 클릭하여 주소와 점수를 확인할 수 있습니다.</p>}
     </div>
   );
 }
