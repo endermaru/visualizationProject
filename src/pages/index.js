@@ -13,6 +13,9 @@ export default function Home() {
   const [interactive, setInteractiveIndex] = useState(false);
   const interRef = useRef(interactive);
 
+  //점수환산표
+  const [showTable, setShowTable] = useState(false);
+
   useEffect(() => {
     const handleResize = () => {
       const height = window.innerHeight;
@@ -59,6 +62,8 @@ export default function Home() {
         window.removeEventListener("wheel", handleWheel);
         const direction = event.deltaY;
         setAction((prevAction) => {
+          //점수환산표 끄기
+          if (prevAction==6) setShowTable(false);
           const newAction =
             direction > 0
               ? Math.min(prevAction + 1, maxPage)
@@ -85,12 +90,14 @@ export default function Home() {
         ? true
         : false;
     if (flag && typeof window !== "undefined") {
-      //event.preventDefault();
+      event.preventDefault();
       if (!interRef.current) {
         window.removeEventListener("keydown", handleKeyDown);
         const direction =
           event.key === "ArrowUp" || event.key === "ArrowLeft" ? -1 : 1;
         setAction((prevAction) => {
+          //점수환산표 끄기
+          if (prevAction==6) setShowTable(false);
           const newAction =
             direction > 0
               ? Math.min(prevAction + 1, maxPage)
@@ -204,11 +211,36 @@ export default function Home() {
     },
     {
       content: (
-        <p>
+        <>
+        {showTable && (
+          <img
+            className="fixed inset-0 z-20 fade-in border border-0 rounded-md w-[50%] m-auto"
+            onClick={() => setShowTable(false)}
+            src="점수환산표.jpg"
+            alt="점수환산표"
+            style={{ top: '0', bottom: '0', left: '0', right: '0', transform: 'translateY(-15%)'}}
+          />
+        )}
+
+        <div className="my-[10vmin] relative flex flex-col justify-end items-center ">
+          <button className="flex justify-center z-10 fade-in fade-out rounded-full p-2 m-1 aspect-square 
+            border border-1 border-stone-700 bg-white flex flex-col place-items-center text-stone-700 hover:text-blue-600" 
+              onClick={()=>{
+                setShowTable(!showTable);
+              }}
+          >
+            <p className='font-2xl font-bold'>?</p>
+            <p className='font-Pretendard-ExBold text-xs'>점수계산</p>
+          </button>
+          <p>
           폭염 불평등 실태를 나타내는 점수는 <br />
           면적당 전력 사용량, 건물 연한과 단열 등급을 반영한 계산식으로
           도출하였다.
-        </p>
+          </p>
+
+          
+        </div>
+        </>
       ),
     },
     {
@@ -270,7 +302,7 @@ export default function Home() {
                     <td>0등급</td>
                   </tr>
                   <tr>
-                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">면적당<br/>전력사용량</td>
                     <td className="pb-[2vmin]">
                       3.52 kWh/m<sup>2</sup>
                     </td>
@@ -315,7 +347,7 @@ export default function Home() {
                     <td>1등급</td>
                   </tr>
                   <tr>
-                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">면적당<br/>전력사용량</td>
                     <td className="pb-[2vmin]">
                       4.59 kWh/m<sup>2</sup>
                     </td>
@@ -363,7 +395,7 @@ export default function Home() {
                     <td>0등급</td>
                   </tr>
                   <tr>
-                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">면적당<br/>전력사용량</td>
                     <td className="pb-[2vmin]">
                       3.52 kWh/m<sup>2</sup>
                     </td>
@@ -408,7 +440,7 @@ export default function Home() {
                     <td>1등급</td>
                   </tr>
                   <tr>
-                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">면적당<br/>전력사용량</td>
                     <td className="pb-[2vmin]">
                       5.56 kWh/m<sup>2</sup>
                     </td>
@@ -456,7 +488,7 @@ export default function Home() {
                     <td>0등급</td>
                   </tr>
                   <tr>
-                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">면적당<br/>전력사용량</td>
                     <td className="pb-[2vmin]">
                       4.00 kWh/m<sup>2</sup>
                     </td>
@@ -501,7 +533,7 @@ export default function Home() {
                     <td>2등급</td>
                   </tr>
                   <tr>
-                    <td className="pb-[2vmin]">면적당 전력사용량</td>
+                    <td className="pb-[2vmin]">면적당<br/>전력사용량</td>
                     <td className="pb-[2vmin]">
                       3.45 kWh/m<sup>2</sup>
                     </td>
@@ -582,6 +614,13 @@ export default function Home() {
           interRef.current = e;
         }}
       />
+      {action==14 && <button className="fixed flex bottom-5 left-0 fade-in fade-out rounded px-2 py-1 m-3 aspect-square 
+            border border-1 border-stone-700 bg-white flex flex-col place-items-center text-stone-700 hover:text-blue-600" 
+          onClick={()=>{setAction(0);window.scrollTo({top:0});}}
+          >
+            <p className='font-xl font-bold'>웹페이지<br/>처음부터<br/>다시보기</p>
+
+      </button>}
 
       {/* 배경 이미지가 고정된 상태로 표시됨 */}
       {action < 14 && (
@@ -621,7 +660,7 @@ export default function Home() {
               className={`h-screen flex flex-col items-center text-white ${
                 index + 1 === 5
                   ? "justify-start"
-                  : index + 1 === 7 || index + 1 === 8
+                  : index + 1 ===6 || index + 1 === 7 || index + 1 === 8
                   ? "justify-end"
                   : "justify-center"
               }
