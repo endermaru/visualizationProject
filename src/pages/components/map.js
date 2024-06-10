@@ -495,7 +495,6 @@ const MapB =(props) => {
         border border-1 border-black bg-white flex flex-col place-items-center text-stone-700 hover:text-blue-600" 
           onClick={()=>{
             setShowTable(!showTable);
-            console.log("!");
           }}
         >
           <p className='font-2xl font-bold'>?</p>
