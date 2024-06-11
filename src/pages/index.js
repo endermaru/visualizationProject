@@ -134,7 +134,7 @@ export default function Home() {
   useEffect(() => {
     //리셋
     actionRef.current = 0;
-    setAction(13);
+    setAction(0);
     window.scrollTo({ top: 0 });
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("wheel", disableWheel, { passive: false });
