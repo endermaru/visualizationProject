@@ -169,8 +169,8 @@ export default function Home() {
             <span style={{ color: "#FE5657" /* red */ }}>30도</span> 가량
             높았다.
           </p>
-          <div className="flex justify-center my-[3vmin] w-[75%]">
-            <img src="/표면온도.png" className="w-full" />
+          <div className="flex justify-center my-[3vmin] h-[70vmin]">
+            <img src="/표면온도.png" className="w-full h-full" />
           </div>
           <p className="font-Pretendard-Regular text-[3vmin]">
             이예린, [폭염격차]① 쪽방촌 표면 온도 ‘30도 더 뜨거웠다’,
@@ -181,7 +181,16 @@ export default function Home() {
     },
     {
       content: (
-        <p>이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,</p>
+        <div className="flex flex-col items-center justify-center">
+          <p>이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,</p>
+          <div className="flex justify-center my-[3vmin] h-[70vmin]">
+            <img src="/photo.jpg" className="w-full h-full faded-both" />
+          </div>
+          <p className="font-Pretendard-Regular text-[3vmin]">
+            강진구, 폭염에 신음하는 쪽방촌 “냉방비 지원해주오”,
+            《한국일보》, 2018.08.06.
+          </p>
+        </div>
       ),
     },
     {
@@ -289,7 +298,7 @@ export default function Home() {
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}>73.25</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score1-1.png" alt="case 1 img 1" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
@@ -376,13 +385,13 @@ export default function Home() {
             </div>
 
             <div className="flex justify-center h-1/4">
-              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+              <img src="/case2-1.png" alt="case 2 img 1" className="w-3/4" />
             </div>
             <p>
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}>73.25</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score2-1.png" alt="case 2 img 2" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
@@ -421,13 +430,13 @@ export default function Home() {
               </div>
             </div>
             <div className="flex justify-center h-1/4">
-              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+              <img src="/case2-2.png" alt="case 2 img 2" className="w-3/4" />
             </div>
             <p>
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 51.44</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score2-2.png" alt="case 2 img 2" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
@@ -469,13 +478,13 @@ export default function Home() {
             </div>
 
             <div className="flex justify-center h-1/4">
-              <img src="/case1-1.png" alt="case 1 img 1" className="w-3/4" />
+              <img src="/case3-1.png" alt="case 3 img 1" className="w-3/4" />
             </div>
             <p>
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}>75.99</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score1-1.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score3-1.png" alt="case 3 img 2" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
@@ -514,13 +523,13 @@ export default function Home() {
               </div>
             </div>
             <div className="flex justify-center h-1/4">
-              <img src="/case1-2.png" alt="case 1 img 2" className="w-3/4" />
+              <img src="/case3-2.png" alt="case 3 img 2" className="w-3/4" />
             </div>
             <p>
               폭염 불평등 점수: <span style={{ fontSize: "160%" }}> 47.13</span>
             </p>
             <div className="flex justify-center">
-              <img src="/score1-2.png" alt="case 1 img 2" className="w-4/5" />
+              <img src="/score3-2.png" alt="case 3 img 2" className="w-4/5" />
             </div>
             <div className="flex justify-center items">
               <table className="font-Pretendard-Regular text-left w-full">
