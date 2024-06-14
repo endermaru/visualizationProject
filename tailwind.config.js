@@ -22,11 +22,38 @@ module.exports = {
           '0%, 100%': { transform: 'translateY(0)' },
           '20%': { transform: 'translateY(5px)' },
         },
+        growAndFade: {
+          '0%': { transform: 'scale(1)', opacity: '0' },
+          '25%': {opacity: '1' },
+          '75%': {opacity: '1' },
+          '100%': { transform: 'scale(1.1)', opacity: '1' },
+        },
       },
       animation: {
         'bounce-down': 'bounce-down 1.5s ease-in-out infinite',
+        'grow-fade': 'growAndFade 8s ease-in-out forwards',
+      },
+      animationDelay: {
+        '0s': '0s',
+        '0.5s': '0.25s',
+        '1s': '0.5s',
+        '1.5s': '0.7s',
+        '2s': '1s',
+        '2.5s': '1.2s',
+        '3s': '1.5s',
+        '3.5s': '1.9s',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities, theme, e }) {
+      const delays = theme('animationDelay');
+      const utilities = Object.keys(delays).map(key => ({
+        [`.${e(`delay-${key}`)}`]: {
+          animationDelay: delays[key],
+        },
+      }));
+      addUtilities(utilities, ['responsive', 'hover']);
+    },
+  ],
 };
