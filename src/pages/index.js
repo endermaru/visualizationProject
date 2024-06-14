@@ -15,6 +15,8 @@ export default function Home() {
 
   //점수환산표
   const [showTable, setShowTable] = useState(false);
+  //커버 내 도움말
+  const [showHelp, setShowHelp] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -131,8 +133,8 @@ export default function Home() {
     if (flag) event.preventDefault();
   };
 
+  //초기화
   useEffect(() => {
-    //리셋
     actionRef.current = 0;
     setAction(0);
     window.scrollTo({ top: 0 });
@@ -140,6 +142,10 @@ export default function Home() {
     window.addEventListener("wheel", disableWheel, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keydown", disableKeyDown);
+
+    setTimeout(()=>{
+      setShowHelp(true);
+    },1500)
 
     return () => {
       window.removeEventListener("wheel", handleWheel);
@@ -156,6 +162,7 @@ export default function Home() {
       title2: "여름의 비극",
       description:
         "*본 프로젝트는 한국일보, <도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방>을 데이터 시각화로서 재구성한 프로젝트입니다.",
+      help:"▼ 마우스 휠이나 키보드 방향키로 이동이 가능합니다 ▼"
     },
     {
       content: <p>매년 다가오는 여름은 쪽방촌 주민들에게 치명적인 위협이다.</p>,
@@ -655,6 +662,12 @@ export default function Home() {
               <p className="absolute text-white bottom-[20vh] text-left text-[2.7vmin] md:ml-[10%] mr-[10%] ml-[5%]">
                 {pageTexts[0].description}
               </p>
+              {showHelp&&
+              <div className="fade-in">
+                <p className="absolute text-white left-1/3 bottom-[8vh] text-[2.7vmin] animate-bounce-down">
+                  {pageTexts[0].help}
+                </p>
+              </div>}
             </div>
           </div>
           {/* <div className="attach-image w-screen h-screen"></div> */}

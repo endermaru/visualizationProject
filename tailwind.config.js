@@ -17,6 +17,15 @@ module.exports = {
         'Pretendard-Regular': ['Pretendard-regular'],
         'Pretendard-ExBold': ['Pretendard-ExtraBold'],
       },
+      keyframes: {
+        'bounce-down': {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '20%': { transform: 'translateY(5px)' },
+        },
+      },
+      animation: {
+        'bounce-down': 'bounce-down 1.5s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
