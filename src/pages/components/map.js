@@ -271,16 +271,23 @@ const MapB =(props) => {
         case 14:{
           setTool(true);
           setInteractive(true);
+          map.current.setLayoutProperty('seoul1', 'visibility', 'none');
+          map.current.setLayoutProperty('seoul2', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_target', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'none');
           break;
         }
         case 13:{
-          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
           map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_case3', 'visibility', 'none');
           map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 1);
           map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 1);
           map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 1);
           map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 1);
+          map.current.setLayoutProperty('valid_target', 'visibility', 'visible');
           break;
         }
         case 12:{
@@ -303,37 +310,38 @@ const MapB =(props) => {
           map.current.setLayoutProperty('valid_case2', 'visibility', 'none');
           map.current.setLayoutProperty('valid_case1', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+
           map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 0.3);
           map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 0.3);
           map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 0.3);
           map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 0.3);
           break;
         }
-        case 9:{
+        case 9:{ //배경 설명
+          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');;
           map.current.setLayoutProperty('valid_case1', 'visibility', 'none');
-          map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
           map.current.setPaintProperty('valid_others', 'fill-extrusion-opacity', 1);
           map.current.setPaintProperty('valid_target', 'fill-extrusion-opacity', 1);
           map.current.setPaintProperty('Invalid1', 'fill-extrusion-opacity', 1);
           map.current.setPaintProperty('Invalid2', 'fill-extrusion-opacity', 1);
         }
-        case 8:{
-          //기타 건물 토글
+        case 8:{ //기타건물 - 전체 줌 아웃
           map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_target_icon', 'visibility', 'visible');
           setVisible(true);
           break;
         }
-        case 7:{
-          //기타 건물 토글
+        case 7:{ //쪽방촌 클로즈업
           map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_others', 'visibility', 'none');
           map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
+          map.current.setLayoutProperty('valid_target', 'visibility', 'visible');
           setVisible(false);
           break;
         }
-        case 6:{
+        case 6:{ //전체 시각화 전경
           // 레이어 비활성화 및 마커 제거
           markers.current.forEach(marker => {
             const markerElement = marker.getElement();
@@ -347,6 +355,7 @@ const MapB =(props) => {
           map.current.setLayoutProperty('seoul2', 'visibility', 'none');
           map.current.setLayoutProperty('valid_others_inactive', 'visibility', 'none');
           map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
+          map.current.setLayoutProperty('valid_target', 'visibility', 'visible');
           map.current.setLayoutProperty('valid_target_icon', 'visibility', 'none');
           setVisible(true);
           break;
@@ -355,7 +364,6 @@ const MapB =(props) => {
           setTimeout(()=>{
             map.current.setLayoutProperty('seoul1', 'visibility', 'visible');
             map.current.setLayoutProperty('seoul2', 'visibility', 'visible');
-            map.current.setLayoutProperty('valid_others', 'visibility', 'visible');
             if (markers.current.length==0) {
               for (const feature of geojson.features) {
                 const el = document.createElement('div');
