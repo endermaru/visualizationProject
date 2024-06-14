@@ -17,6 +17,8 @@ export default function Home() {
   const [showTable, setShowTable] = useState(false);
   //커버 내 도움말
   const [showHelp, setShowHelp] = useState(false);
+  //기사 보여주기
+  const [showArticle, setShowArticle] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -70,11 +72,15 @@ export default function Home() {
             direction > 0
               ? Math.min(prevAction + 1, maxPage)
               : Math.max(prevAction - 1, 0);
+          
           actionRef.current = newAction;
           window.scrollTo({
             top: newAction * pageHeightRef.current,
             behavior: "smooth",
           });
+          //for article
+          if (newAction==1) setShowArticle(true);
+          else setShowArticle(false);
           return newAction;
         });
         setTimeout(() => {
@@ -109,6 +115,9 @@ export default function Home() {
             top: newAction * pageHeightRef.current,
             behavior: "smooth",
           });
+          //for article
+          if (newAction==1) setShowArticle(true);
+          else setShowArticle(false);
           return newAction;
         });
         setTimeout(() => {
@@ -694,6 +703,74 @@ export default function Home() {
               </div>
             </div>
           ))}
+          {/* animate-grow-fade delay-0s */}
+          {(showArticle) && <div className="h-screen">
+            <table className="fixed top-0 h-screen border-0">
+              <tbody>
+                <tr>
+                  <td><div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] left-[40vmin] opacity-0 animate-grow-fade delay-0s" >
+                    KBS, [폭염격차] 쪽방촌 표면 온도 '30도 더 뜨거웠다', 2022.07.03.
+                  </div></td>
+                </tr>
+                <tr>
+                  <td><div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] right-[20vmin] opacity-0 animate-grow-fade delay-2s" >
+                    JTBC, '최고기온 55.4도' 쪽방촌...열화상 카메라가 비춘 '폭염격차', 2023.06.19.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] left-[10vmin] opacity-0 animate-grow-fade delay-2.5s">
+                    서울신문, [르포] 폭염과 사투 벌이는 쪽방촌의 하루, 2023.07.31.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  <div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] right-[5vmin] opacity-0 animate-grow-fade delay-1s">
+                    TBS, 서울시, "폭염도 재난"...8월 취약계층 안전관리 강화, 2023.07.31.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                  <div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] right-[10vmin] opacity-0 animate-grow-fade delay-1.5s">
+                    KBS, '꼬리무는 폭염‧폭우' 더 힘겨운 쪽방 노인들, 2023.07.06.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  <div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] left-[30vmin] opacity-0 animate-grow-fade delay-2.5s">
+                    연합뉴스, [르포] '한증막 더위' 닥친 쪽방촌... "가만있어도 땀 줄줄", 2023.06.19.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  <div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] right-[30vmin] opacity-0 animate-grow-fade delay-1.5s">
+                    한국경제, [포토] '전국이 펄펄' 폭염에 힘겨운 쪽방촌, 2023.08.03.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  <div className="fixed px-2 text-blue-900 bg-white shadow-lg font-Pretendard-ExBold text-[3vmin] left-[10vmin] opacity-0 animate-grow-fade delay-0.5s">
+                     아시아경제, 일찍 찾아온 열대야…쪽방촌 주민들 “숨이 턱턱 막혀”, 2024.06.15.
+                  </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>}
         </div>
       )}
     </main>
