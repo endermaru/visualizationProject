@@ -176,7 +176,7 @@ export default function Home() {
             <span style={{ color: "#FE5657" /* red */ }}>30도</span> 가량
             높았다.
           </p>
-          <div className="flex justify-center my-[3vmin] h-[70vmin]">
+          <div className="flex justify-center my-[3vmin] h-[60vmin]">
             <img src="/표면온도.png" className="w-full h-full" />
           </div>
           <p className="font-Pretendard-Regular text-[3vmin]">
@@ -190,12 +190,11 @@ export default function Home() {
       content: (
         <div className="flex flex-col items-center justify-center">
           <p>이러한 현상은 쪽방촌의 열악한 주거 환경에서 비롯된 것으로,</p>
-          <div className="flex justify-center my-[3vmin] h-[70vmin]">
-            <img src="/photo.jpg" className="w-full h-full faded-both" />
+          <div className="flex justify-center my-[3vmin] h-[65vmin]">
+            <img src="/photo.png" className="w-full h-full" />
           </div>
           <p className="font-Pretendard-Regular text-[3vmin]">
-            강진구, 폭염에 신음하는 쪽방촌 “냉방비 지원해주오”,
-            《한국일보》, 2018.08.06.
+            쪽방 주민과 용산구 동자동 쪽방 층 단면도<br/> <br/>이혜미, 도시 빈자들의 최후의 주거지 - 지옥고 아래 쪽방, 《한국일보》, 2020.06.18.
           </p>
         </div>
       ),
