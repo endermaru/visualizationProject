@@ -26,12 +26,12 @@ module.exports = {
           '0%': { transform: 'scale(1)', opacity: '0' },
           '25%': {opacity: '1' },
           '75%': {opacity: '1' },
-          '100%': { transform: 'scale(1.1)', opacity: '1' },
+          '100%': { transform: 'scale(1.1)', opacity: '0' },
         },
       },
       animation: {
-        'bounce-down': 'bounce-down 1.5s ease-in-out infinite',
-        'grow-fade': 'growAndFade 8s ease-in-out forwards',
+        'bounce-down': 'bounce-down 2s ease-in-out infinite',
+        'grow-fade': 'growAndFade 10s ease-in forwards',
       },
       animationDelay: {
         '0s': '0s',
